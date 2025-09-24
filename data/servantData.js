@@ -1,703 +1,321 @@
-// Directory: /memoria-lost-bot/data/servantData.js
-// Complete servant data with all rarities
+// New character data with complex skill mechanics for Memoria Lost
+const { SkillEffectLibrary } = require('../utils/SkillEffect');
 
 module.exports = {
     servants: [
-        // ==================== DEMON SLAYER ====================
-        // 6★ Servants
-        {
-            name: 'Giyu Tomioka',
-            series: 'Demon Slayer',
-            rarity: 6,
-            element: 'water',
-            role: 'dps',
-            baseAtk: 100,
-            baseDef: 75,
-            baseHp: 130,
-            baseSpd: 85,
-            skillName: 'Water Breathing: Eleventh Form',
-            skillDescription: 'Creates a perfect defense that counters all attacks',
-            skillPower: 200,
-            passiveName: 'Hashira Strength',
-            passiveDescription: 'All stats increased by 20%',
-            ultimateName: 'Dead Calm',
-            ultimateDescription: 'Nullifies all enemy attacks for one turn'
-        },
-        {
-            name: 'Kyojuro Rengoku',
-            series: 'Demon Slayer',
-            rarity: 6,
-            element: 'fire',
-            role: 'tank',
-            baseAtk: 90,
-            baseDef: 95,
-            baseHp: 150,
-            baseSpd: 70,
-            skillName: 'Flame Breathing: Ninth Form',
-            skillDescription: 'Purgatory - Ultimate flame attack',
-            skillPower: 220,
-            passiveName: 'Unbreakable Spirit',
-            passiveDescription: 'Cannot be defeated in one hit when above 50% HP',
-            ultimateName: 'Set Your Heart Ablaze',
-            ultimateDescription: 'Massive damage and inspires all allies'
-        },
-        
-        // 5★ Servants
-        {
-            name: 'Tanjiro Kamado',
-            series: 'Demon Slayer',
-            rarity: 5,
-            element: 'water',
-            role: 'dps',
-            baseAtk: 85,
-            baseDef: 60,
-            baseHp: 120,
-            baseSpd: 75,
-            skillName: 'Water Breathing: Tenth Form',
-            skillDescription: 'Unleashes a powerful water dragon attack on all enemies',
-            skillPower: 150,
-            passiveName: 'Total Concentration',
-            passiveDescription: 'Increases critical rate by 15%',
-            ultimateName: 'Hinokami Kagura',
-            ultimateDescription: 'Switches to Sun Breathing, dealing massive fire damage'
-        },
-        {
-            name: 'Nezuko Kamado',
-            series: 'Demon Slayer',
-            rarity: 5,
-            element: 'fire',
-            role: 'support',
-            baseAtk: 70,
-            baseDef: 80,
-            baseHp: 150,
-            baseSpd: 65,
-            skillName: 'Blood Demon Art',
-            skillDescription: 'Burns away demon poison and heals allies',
-            skillPower: 120,
-            passiveName: 'Demon Regeneration',
-            passiveDescription: 'Regenerates 5% HP each turn'
-        },
-        {
-            name: 'Shinobu Kocho',
-            series: 'Demon Slayer',
-            rarity: 5,
-            element: 'wind',
-            role: 'control',
-            baseAtk: 75,
-            baseDef: 55,
-            baseHp: 110,
-            baseSpd: 95,
-            skillName: 'Insect Breathing: Butterfly Dance',
-            skillDescription: 'Poisons all enemies with wisteria',
-            skillPower: 130,
-            passiveName: 'Poison Expert',
-            passiveDescription: 'Attacks apply poison that deals damage over time'
-        },
-        
-        // 4★ Servants
-        {
-            name: 'Zenitsu Agatsuma',
-            series: 'Demon Slayer',
-            rarity: 4,
-            element: 'electric',
-            role: 'dps',
-            baseAtk: 90,
-            baseDef: 45,
-            baseHp: 100,
-            baseSpd: 95,
-            skillName: 'Thunder Breathing: First Form',
-            skillDescription: 'Lightning-fast strike that always crits',
-            skillPower: 180,
-            passiveName: 'Unconscious Combat',
-            passiveDescription: 'Damage increases by 50% when below 30% HP'
-        },
-        {
-            name: 'Inosuke Hashibira',
-            series: 'Demon Slayer',
-            rarity: 4,
-            element: 'earth',
-            role: 'tank',
-            baseAtk: 75,
-            baseDef: 85,
-            baseHp: 140,
-            baseSpd: 70,
-            skillName: 'Beast Breathing: Fangs',
-            skillDescription: 'Wild slashing attack that hits multiple times',
-            skillPower: 130,
-            passiveName: 'Wild Instinct',
-            passiveDescription: 'Evasion rate increased by 10%'
-        },
-        {
-            name: 'Kanao Tsuyuri',
-            series: 'Demon Slayer',
-            rarity: 4,
-            element: 'wind',
-            role: 'dps',
-            baseAtk: 80,
-            baseDef: 50,
-            baseHp: 105,
-            baseSpd: 85,
-            skillName: 'Flower Breathing: Final Form',
-            skillDescription: 'Equinoctial Vermillion Eye - sees all movements',
-            skillPower: 140,
-            passiveName: 'Enhanced Vision',
-            passiveDescription: 'Accuracy and crit rate increased by 10%'
-        },
-        
-        // ==================== FATE SERIES ====================
-        // 6★ Servants
-        {
-            name: 'Saber (Artoria)',
-            series: 'Fate',
-            rarity: 6,
-            element: 'light',
-            role: 'dps',
-            baseAtk: 95,
-            baseDef: 80,
-            baseHp: 140,
-            baseSpd: 80,
-            skillName: 'Excalibur',
-            skillDescription: 'Unleashes the holy sword\'s true power',
-            skillPower: 250,
-            passiveName: 'Magic Resistance',
-            passiveDescription: 'Takes 20% less damage from magic attacks',
-            ultimateName: 'Avalon',
-            ultimateDescription: 'Becomes invincible for 2 turns'
-        },
-        {
-            name: 'Gilgamesh',
-            series: 'Fate',
-            rarity: 6,
-            element: 'light',
-            role: 'dps',
-            baseAtk: 105,
-            baseDef: 65,
-            baseHp: 125,
-            baseSpd: 75,
-            skillName: 'Gate of Babylon',
-            skillDescription: 'Launches countless noble phantasms',
-            skillPower: 240,
-            passiveName: 'King of Heroes',
-            passiveDescription: 'Damage increases by 30% against divine enemies',
-            ultimateName: 'Enuma Elish',
-            ultimateDescription: 'World-ending attack that ignores defense'
-        },
-        
-        // 5★ Servants
-        {
-            name: 'Archer (EMIYA)',
-            series: 'Fate',
-            rarity: 5,
-            element: 'fire',
-            role: 'dps',
-            baseAtk: 88,
-            baseDef: 65,
-            baseHp: 110,
-            baseSpd: 82,
-            skillName: 'Unlimited Blade Works',
-            skillDescription: 'Creates a field of infinite swords',
-            skillPower: 160,
-            passiveName: 'Eye of the Mind',
-            passiveDescription: 'Critical damage increased by 30%'
-        },
-        {
-            name: 'Lancer (Cu Chulainn)',
-            series: 'Fate',
-            rarity: 5,
-            element: 'wind',
-            role: 'tank',
-            baseAtk: 78,
-            baseDef: 88,
-            baseHp: 135,
-            baseSpd: 78,
-            skillName: 'Gae Bolg',
-            skillDescription: 'Spear that pierces the heart with certainty',
-            skillPower: 170,
-            passiveName: 'Battle Continuation',
-            passiveDescription: 'Can survive fatal damage once per battle'
-        },
-        {
-            name: 'Rider (Medusa)',
-            series: 'Fate',
-            rarity: 5,
-            element: 'dark',
-            role: 'control',
-            baseAtk: 82,
-            baseDef: 62,
-            baseHp: 115,
-            baseSpd: 90,
-            skillName: 'Mystic Eyes',
-            skillDescription: 'Petrifies enemies with lower speed',
-            skillPower: 140,
-            passiveName: 'Riding',
-            passiveDescription: 'Speed increased by 20%'
-        },
-        
-        // 4★ Servants
-        {
-            name: 'Rin Tohsaka',
-            series: 'Fate',
-            rarity: 4,
-            element: 'fire',
-            role: 'support',
-            baseAtk: 72,
-            baseDef: 58,
-            baseHp: 105,
-            baseSpd: 78,
-            skillName: 'Gandr Shot',
-            skillDescription: 'Powerful curse that weakens enemies',
-            skillPower: 110,
-            passiveName: 'Jewel Magecraft',
-            passiveDescription: 'Skills cost 1 less SP'
-        },
-        {
-            name: 'Shirou Emiya',
-            series: 'Fate',
-            rarity: 4,
-            element: 'fire',
-            role: 'tank',
-            baseAtk: 68,
-            baseDef: 82,
-            baseHp: 130,
-            baseSpd: 70,
-            skillName: 'Trace On',
-            skillDescription: 'Projects weapons to defend allies',
-            skillPower: 100,
-            passiveName: 'Projection Magic',
-            passiveDescription: 'Can copy enemy weapon stats'
-        },
-        {
-            name: 'Sakura Matou',
-            series: 'Fate',
-            rarity: 4,
-            element: 'dark',
-            role: 'healer',
-            baseAtk: 65,
-            baseDef: 70,
-            baseHp: 120,
-            baseSpd: 72,
-            skillName: 'Shadow Magic',
-            skillDescription: 'Dark healing that absorbs enemy HP',
-            skillPower: 120,
-            passiveName: 'Imaginary Numbers',
-            passiveDescription: 'Healing increased by 25%'
-        },
-        
-        // ==================== DANMACHI ====================
-        // 6★ Servants
-        {
-            name: 'Ais Wallenstein',
-            series: 'DanMachi',
-            rarity: 6,
-            element: 'wind',
-            role: 'dps',
-            baseAtk: 98,
-            baseDef: 70,
-            baseHp: 125,
-            baseSpd: 92,
-            skillName: 'Ariel',
-            skillDescription: 'Wind armor that increases all stats',
-            skillPower: 180,
-            passiveName: 'Sword Princess',
-            passiveDescription: 'Attack speed increased by 20%',
-            ultimateName: 'Lil Rafaga',
-            ultimateDescription: 'Ultimate wind blast that ignores defense'
-        },
-        {
-            name: 'Ottar',
-            series: 'DanMachi',
-            rarity: 6,
-            element: 'earth',
-            role: 'tank',
-            baseAtk: 88,
-            baseDef: 105,
-            baseHp: 160,
-            baseSpd: 65,
-            skillName: 'Vana Freya',
-            skillDescription: 'Blessing of the war goddess',
-            skillPower: 190,
-            passiveName: 'Level 7',
-            passiveDescription: 'Takes 30% less damage from all sources',
-            ultimateName: 'Hildis Vini',
-            ultimateDescription: 'Becomes unstoppable force'
-        },
-        
-        // 5★ Servants
-        {
-            name: 'Bell Cranel',
-            series: 'DanMachi',
-            rarity: 5,
-            element: 'light',
-            role: 'dps',
-            baseAtk: 87,
-            baseDef: 55,
-            baseHp: 115,
-            baseSpd: 90,
-            skillName: 'Argonaut',
-            skillDescription: 'Heroic strike that grows stronger with charging',
-            skillPower: 170,
-            passiveName: 'Realis Phrase',
-            passiveDescription: 'Gains 25% more experience in battle'
-        },
-        {
-            name: 'Ryu Lion',
-            series: 'DanMachi',
-            rarity: 5,
-            element: 'wind',
-            role: 'control',
-            baseAtk: 83,
-            baseDef: 68,
-            baseHp: 118,
-            baseSpd: 87,
-            skillName: 'Luminous Wind',
-            skillDescription: 'Swift wind magic that disrupts enemies',
-            skillPower: 145,
-            passiveName: 'Gale',
-            passiveDescription: 'Dodge chance increased by 15%'
-        },
-        {
-            name: 'Freya',
-            series: 'DanMachi',
-            rarity: 5,
-            element: 'light',
-            role: 'support',
-            baseAtk: 72,
-            baseDef: 75,
-            baseHp: 125,
-            baseSpd: 77,
-            skillName: 'Charm',
-            skillDescription: 'Charms enemies to fight for you',
-            skillPower: 135,
-            passiveName: 'Goddess of Beauty',
-            passiveDescription: 'All allies gain 10% to all stats'
-        },
-        
-        // 4★ Servants
-        {
-            name: 'Hestia',
-            series: 'DanMachi',
-            rarity: 4,
-            element: 'fire',
-            role: 'healer',
-            baseAtk: 60,
-            baseDef: 75,
-            baseHp: 130,
-            baseSpd: 68,
-            skillName: 'Divine Protection',
-            skillDescription: 'Blesses allies with increased defense',
-            skillPower: 100,
-            passiveName: 'Goddess Blessing',
-            passiveDescription: 'All allies regenerate 3% HP per turn'
-        },
-        {
-            name: 'Lili',
-            series: 'DanMachi',
-            rarity: 4,
-            element: 'earth',
-            role: 'support',
-            baseAtk: 55,
-            baseDef: 65,
-            baseHp: 110,
-            baseSpd: 80,
-            skillName: 'Cinder Ella',
-            skillDescription: 'Transform to copy enemy abilities',
-            skillPower: 90,
-            passiveName: 'Supporter',
-            passiveDescription: 'Increases item drop rate by 20%'
-        },
-        {
-            name: 'Welf Crozzo',
-            series: 'DanMachi',
-            rarity: 4,
-            element: 'fire',
-            role: 'tank',
-            baseAtk: 70,
-            baseDef: 88,
-            baseHp: 135,
-            baseSpd: 65,
-            skillName: 'Magic Sword',
-            skillDescription: 'Creates powerful elemental weapons',
-            skillPower: 115,
-            passiveName: 'Blacksmith',
-            passiveDescription: 'Equipment bonuses increased by 15%'
-        },
-        
         // ==================== KONOSUBA ====================
-        // 6★ Servants
         {
-            name: 'Wiz',
-            series: 'Konosuba',
-            rarity: 6,
-            element: 'ice',
-            role: 'dps',
-            baseAtk: 102,
-            baseDef: 58,
+            id: 'aqua',
+            name: 'Aqua',
+            series: 'Konosuba', 
+            element: 'water',
+            gender: 'female',
+            baseAtk: 91,
+            baseDef: 130, 
             baseHp: 115,
-            baseSpd: 72,
-            skillName: 'Cursed Crystal Prison',
-            skillDescription: 'Ultimate ice magic that freezes everything',
-            skillPower: 230,
-            passiveName: 'Lich Powers',
-            passiveDescription: 'Immune to instant death and gains MP from damage',
-            ultimateName: 'Vanir-Style Death Ray',
-            ultimateDescription: 'Learned from demon general'
-        },
-        {
-            name: 'Vanir',
-            series: 'Konosuba',
+            baseSpd: 154,
             rarity: 6,
-            element: 'dark',
-            role: 'control',
-            baseAtk: 92,
-            baseDef: 78,
-            baseHp: 130,
-            baseSpd: 85,
-            skillName: 'Vanir-Style Death Ray',
-            skillDescription: 'All-seeing demon magic',
-            skillPower: 200,
-            passiveName: 'All-Seeing Demon',
-            passiveDescription: 'Can predict and counter enemy moves',
-            ultimateName: 'Mask Regeneration',
-            ultimateDescription: 'Revives with full HP once per battle'
+            role: 'support',
+            
+            // Complex skill: Purification Fountain
+            skillName: 'Purification Fountain',
+            skillDescription: 'Aqua summons a purifying fountain, cleansing all debuffs from allies and healing them for 15% of her HP.',
+            skillSpCost: 10,
+            skillTargetType: 'all-allies',
+            skillEffects: [
+                SkillEffectLibrary.heal(15, true) // 15% ATK healing with cleanse
+            ],
+            
+            // Complex passive: Goddess of Trouble
+            passiveName: 'Goddess of Trouble',
+            passiveDescription: 'Every time Aqua uses a skill, there is a 25% chance she will accidentally trip, causing her to lose 50% of her max HP but increasing the ATK of all allies by 15% for 2 turns.',
+            passiveEffects: [
+                SkillEffectLibrary.goddessOfTrouble()
+            ],
+            passiveTriggers: ['onSkillUse']
         },
         
-        // 5★ Servants
         {
-            name: 'Aqua',
-            series: 'Konosuba',
-            rarity: 5,
-            element: 'water',
-            role: 'healer',
-            baseAtk: 65,
-            baseDef: 70,
-            baseHp: 140,
-            baseSpd: 72,
-            skillName: 'Sacred Highness Heal',
-            skillDescription: 'Powerful healing that removes all debuffs',
-            skillPower: 140,
-            passiveName: 'Goddess of Water',
-            passiveDescription: 'Water attacks deal 50% more damage'
-        },
-        {
+            id: 'megumin', 
             name: 'Megumin',
             series: 'Konosuba',
-            rarity: 5,
             element: 'fire',
-            role: 'dps',
-            baseAtk: 105,
-            baseDef: 40,
-            baseHp: 90,
-            baseSpd: 60,
-            skillName: 'EXPLOSION!',
-            skillDescription: 'Devastating explosion but user is stunned next turn',
-            skillPower: 300,
-            passiveName: 'Crimson Demon',
-            passiveDescription: 'First skill each battle deals double damage'
-        },
-        {
-            name: 'YunYun',
-            series: 'Konosuba',
-            rarity: 5,
-            element: 'electric',
-            role: 'dps',
-            baseAtk: 85,
-            baseDef: 55,
-            baseHp: 108,
-            baseSpd: 82,
-            skillName: 'Advanced Magic',
-            skillDescription: 'Multiple elemental attacks',
-            skillPower: 155,
-            passiveName: 'Crimson Demon Clan',
-            passiveDescription: 'Magic damage increased by 25%'
+            gender: 'female',
+            baseAtk: 155,
+            baseDef: 92,
+            baseHp: 91, 
+            baseSpd: 106,
+            rarity: 6,
+            role: 'dps_aoe',
+            
+            // Complex skill: Explosion
+            skillName: 'Explosion',
+            skillDescription: 'Megumin unleashes her signature Explosion spell, dealing 300% ATK fire damage to all enemies. After using this skill, Megumin is unable to act for the next turn due to exhaustion.',
+            skillSpCost: 15,
+            skillTargetType: 'all-enemies', 
+            skillEffects: [
+                SkillEffectLibrary.damage(300, 'fire'),
+                SkillEffectLibrary.skipNextTurn()
+            ],
+            
+            // Passive: Explosion Mastery
+            passiveName: 'Explosion Mastery',
+            passiveDescription: 'When Megumin uses Explosion, all allies gain a 10% boost to their ATK for 2 turns.',
+            passiveEffects: [
+                SkillEffectLibrary.multiEffect([
+                    SkillEffectLibrary.applyStatus('atkBuff', 2, 100)
+                ])
+            ],
+            passiveTriggers: ['onExplosionUse']
         },
         
-        // 4★ Servants
         {
-            name: 'Kazuma Satou',
+            id: 'kazuma',
+            name: 'Kazuma Satou', 
             series: 'Konosuba',
+            element: 'wind',
+            gender: 'male',
+            baseAtk: 130,
+            baseDef: 97,
+            baseHp: 124,
+            baseSpd: 116,
             rarity: 4,
-            element: 'dark',
-            role: 'control',
-            baseAtk: 70,
-            baseDef: 62,
-            baseHp: 108,
-            baseSpd: 85,
-            skillName: 'Steal',
-            skillDescription: 'Steals enemy buffs and items',
-            skillPower: 90,
-            passiveName: 'Luck of the Draw',
-            passiveDescription: 'Critical rate increased by 20%'
+            role: 'dps_st',
+            
+            // Complex skill: Luck of the Draw
+            skillName: 'Luck of the Draw',
+            skillDescription: 'Kazuma takes a gamble, dealing 120% ATK wind damage to a random enemy. There\'s a 50% chance the attack misses entirely and he deals 10% ATK damage to himself, but a 50% chance it crits, dealing double damage.',
+            skillSpCost: 15,
+            skillTargetType: 'single-enemy',
+            skillEffects: [
+                SkillEffectLibrary.conditionalEffect(50, 
+                    // Success: Critical hit for 240% damage
+                    SkillEffectLibrary.damage(240, 'wind'),
+                    // Failure: Miss and self-damage
+                    SkillEffectLibrary.selfDamage(10)
+                )
+            ],
+            
+            // Passive: Lucky Pervert
+            passiveName: 'Lucky Pervert', 
+            passiveDescription: 'Kazuma has a 25% chance to avoid any debuff. Additionally, each time he avoids a debuff, all female allies gain haste for 2 turns, as they get flustered by his antics.',
+            passiveEffects: [
+                SkillEffectLibrary.luckyPervert()
+            ],
+            passiveTriggers: ['onDebuffApplied']
         },
+        
         {
+            id: 'darkness',
             name: 'Darkness',
             series: 'Konosuba',
-            rarity: 4,
-            element: 'earth',
+            element: 'light', 
+            gender: 'female',
+            baseAtk: 93,
+            baseDef: 142,
+            baseHp: 88,
+            baseSpd: 155,
+            rarity: 5,
             role: 'tank',
-            baseAtk: 55,
-            baseDef: 100,
-            baseHp: 160,
-            baseSpd: 50,
-            skillName: 'Decoy',
-            skillDescription: 'Forces all enemies to target her',
-            skillPower: 50,
-            passiveName: 'Masochistic Constitution',
-            passiveDescription: 'Gains 10% DEF when hit'
-        },
-        {
-            name: 'Chris',
-            series: 'Konosuba',
-            rarity: 4,
-            element: 'wind',
-            role: 'control',
-            baseAtk: 75,
-            baseDef: 55,
-            baseHp: 100,
-            baseSpd: 92,
-            skillName: 'Bind',
-            skillDescription: 'Traps enemies with wire',
-            skillPower: 105,
-            passiveName: 'Thief Skills',
-            passiveDescription: 'Evasion and steal success rate up 15%'
+            
+            // Complex skill: Ultimate Sacrifice... Maybe?
+            skillName: 'Ultimate Sacrifice... Maybe?',
+            skillDescription: 'Darkness taunts all enemies for 2 turns and takes 150% of incoming damage. Each time she\'s hit, allies recover 2.5% of their max HP. At skill end, 50% chance she\'s Stunned for 1 turn.',
+            skillSpCost: 10,
+            skillTargetType: 'self',
+            skillEffects: [
+                SkillEffectLibrary.multiEffect([
+                    SkillEffectLibrary.applyStatus('taunt', 2, 100),
+                    // Custom effect for damage amplification and healing
+                    // TODO: Implement complex multi-part effect
+                ])
+            ],
+            
+            // Passive: Masochist's Resolve
+            passiveName: 'Masochist\'s Resolve',
+            passiveDescription: 'Each time Darkness loses 10% of her max HP, she gains one stack of Resolve (max 5 stacks). Each stack grants +5% DEF to her.',
+            passiveEffects: [
+                // TODO: Implement HP threshold trigger for resolve stacks
+            ],
+            passiveTriggers: ['onDamageTaken']
         },
         
-        // ==================== GOBLIN SLAYER ====================
-        // 6★ Servants
+        // ==================== FRIEREN ====================
         {
-            name: 'Sword Maiden',
-            series: 'Goblin Slayer',
-            rarity: 6,
-            element: 'light',
-            role: 'healer',
-            baseAtk: 78,
-            baseDef: 82,
+            id: 'frieren',
+            name: 'Frieren',
+            series: 'Sousou no Frieren',
+            element: 'nature',
+            gender: 'female', 
+            baseAtk: 132,
+            baseDef: 117,
             baseHp: 145,
-            baseSpd: 70,
-            skillName: 'Resurrection',
-            skillDescription: 'Brings fallen ally back to life',
-            skillPower: 180,
-            passiveName: 'Archbishop',
-            passiveDescription: 'All healing effects increased by 40%',
-            ultimateName: 'Holy Field',
-            ultimateDescription: 'Creates sanctuary that heals allies each turn'
-        },
-        {
-            name: 'Hero',
-            series: 'Goblin Slayer',
+            baseSpd: 102,
             rarity: 6,
-            element: 'light',
-            role: 'dps',
-            baseAtk: 100,
-            baseDef: 75,
-            baseHp: 135,
-            baseSpd: 88,
-            skillName: 'Chosen of Fate',
-            skillDescription: 'Destiny-powered strike',
-            skillPower: 210,
-            passiveName: 'Platinum Rank',
-            passiveDescription: 'Cannot miss attacks and +25% damage',
-            ultimateName: 'Heroic Finale',
-            ultimateDescription: 'Defeats any non-boss enemy instantly'
+            role: 'dps_aoe',
+            
+            // Skill: Elven Magic Circle
+            skillName: 'Elven Magic Circle',
+            skillDescription: 'Etches a giant arcane glyph in the air, detonating it to blast all enemies for 170% ATK Nature damage.',
+            skillSpCost: 5,
+            skillTargetType: 'all-enemies',
+            skillEffects: [
+                SkillEffectLibrary.damage(170, 'nature')
+            ],
+            
+            // Passive: Timeless Aegis
+            passiveName: 'Timeless Aegis',
+            passiveDescription: 'At the start of battle, Frieren grants herself a permanent 10% Resistance to all elements.',
+            passiveEffects: [
+                SkillEffectLibrary.applyStatus('timelessAegis', -1, 100)
+            ],
+            passiveTriggers: ['onBattleStart']
         },
         
-        // 5★ Servants
         {
-            name: 'Goblin Slayer',
-            series: 'Goblin Slayer',
-            rarity: 5,
-            element: 'dark',
-            role: 'dps',
-            baseAtk: 82,
-            baseDef: 72,
-            baseHp: 118,
-            baseSpd: 77,
-            skillName: 'Gate Scroll',
-            skillDescription: 'Opens a portal to the bottom of the ocean',
-            skillPower: 155,
-            passiveName: 'Goblin Expertise',
-            passiveDescription: 'Deals 40% more damage to goblin-type enemies'
+            id: 'fern',
+            name: 'Fern',
+            series: 'Sousou no Frieren',
+            element: 'light',
+            gender: 'female',
+            baseAtk: 141,
+            baseDef: 97, 
+            baseHp: 141,
+            baseSpd: 98,
+            rarity: 6,
+            role: 'dps_st',
+            
+            // Skill: Mana Lance
+            skillName: 'Mana Lance',
+            skillDescription: 'Draws on the magical drills taught by Frieren to fire a concentrated bolt at one enemy for 150% ATK Light damage. 25% chance to inflict slow on the target for 2 turns.',
+            skillSpCost: 10,
+            skillTargetType: 'single-enemy',
+            skillEffects: [
+                SkillEffectLibrary.damage(150, 'light'),
+                SkillEffectLibrary.applyStatus('slow', 2, 25)
+            ],
+            
+            // Passive: Crescendo
+            passiveName: 'Crescendo', 
+            passiveDescription: 'Each time Fern uses a skill, she gains +5% ATK (stacking up to 3 times). At 3 stacks, her next skill costs 0 SP and deals 50% extra damage, then stacks reset.',
+            passiveEffects: [
+                SkillEffectLibrary.crescendo()
+            ],
+            passiveTriggers: ['onSkillUse']
         },
+        
         {
-            name: 'Dwarf Shaman',
-            series: 'Goblin Slayer',
-            rarity: 5,
+            id: 'stark',
+            name: 'Stark',
+            series: 'Sousou no Frieren', 
             element: 'earth',
-            role: 'support',
-            baseAtk: 70,
-            baseDef: 85,
-            baseHp: 130,
-            baseSpd: 65,
-            skillName: 'Stone Blast',
-            skillDescription: 'Earth magic that crushes enemies',
-            skillPower: 145,
-            passiveName: 'Spell Caster',
-            passiveDescription: 'SP regeneration increased by 1 per turn'
-        },
-        {
-            name: 'Lizard Priest',
-            series: 'Goblin Slayer',
-            rarity: 5,
-            element: 'water',
+            gender: 'male',
+            baseAtk: 99,
+            baseDef: 144,
+            baseHp: 118,
+            baseSpd: 130,
+            rarity: 4,
             role: 'tank',
-            baseAtk: 75,
-            baseDef: 90,
-            baseHp: 140,
-            baseSpd: 68,
-            skillName: 'Dragontooth Warrior',
-            skillDescription: 'Summons skeleton warrior',
-            skillPower: 130,
-            passiveName: 'Dragon Descendant',
-            passiveDescription: 'Natural armor reduces damage by 15%'
-        },
-        
-        // 4★ Servants
-        {
-            name: 'Priestess',
-            series: 'Goblin Slayer',
-            rarity: 4,
-            element: 'light',
-            role: 'healer',
-            baseAtk: 58,
-            baseDef: 68,
-            baseHp: 112,
-            baseSpd: 73,
-            skillName: 'Holy Light',
-            skillDescription: 'Heals allies and damages undead',
-            skillPower: 110,
-            passiveName: 'Minor Heal',
-            passiveDescription: 'Heals lowest HP ally for 10% each turn'
-        },
-        {
-            name: 'High Elf Archer',
-            series: 'Goblin Slayer',
-            rarity: 4,
-            element: 'wind',
-            role: 'dps',
-            baseAtk: 78,
-            baseDef: 52,
-            baseHp: 95,
-            baseSpd: 88,
-            skillName: 'Rain of Arrows',
-            skillDescription: 'Multiple arrows hit random enemies',
-            skillPower: 125,
-            passiveName: 'Elven Sight',
-            passiveDescription: 'Hit rate increased by 15%'
-        },
-        {
-            name: 'Guild Girl',
-            series: 'Goblin Slayer',
-            rarity: 4,
-            element: 'light',
-            role: 'support',
-            baseAtk: 60,
-            baseDef: 65,
-            baseHp: 115,
-            baseSpd: 75,
-            skillName: 'Quest Support',
-            skillDescription: 'Buffs party with guild resources',
-            skillPower: 95,
-            passiveName: 'Guild Connections',
-            passiveDescription: 'Gold and EXP rewards increased by 15%'
+            
+            // Skill: Axe of the Fallen
+            skillName: 'Axe of the Fallen',
+            skillDescription: 'Swings his battle-axe in a wide arc, dealing 100% ATK earth damage to all enemies and applying -15% ATK for 2 turns. Then forms a protective barrier around him, generating a shield equal to 20% of his DEF for 2 turns.',
+            skillSpCost: 15,
+            skillTargetType: 'all-enemies',
+            skillEffects: [
+                SkillEffectLibrary.damage(100, 'earth'),
+                // TODO: Implement ATK debuff and shield effects
+            ],
+            
+            // Passive: Unyielding Oath
+            passiveName: 'Unyielding Oath',
+            passiveDescription: 'Once per battle, when an ally\'s HP falls below 30%, Stark takes all incoming single target hits for them for the next 2 turns.',
+            passiveEffects: [
+                // TODO: Implement protection redirect effect
+            ],
+            passiveTriggers: ['onAllyLowHP'],
+            passiveConditions: ['oncePerBattle']
         }
-    ]
+    ],
+    
+    // Skill generation function for complex characters
+    generateComplexSkills: function(servant) {
+        const skills = [];
+        
+        // Primary skill
+        skills.push({
+            name: servant.skillName,
+            description: servant.skillDescription,
+            spCost: servant.skillSpCost,
+            targetType: servant.skillTargetType,
+            effects: servant.skillEffects,
+            element: servant.element,
+            emoji: this.getSkillEmoji(servant.skillName)
+        });
+        
+        // Role-based additional skills
+        switch (servant.role) {
+            case 'support':
+                skills.push({
+                    name: 'Blessing',
+                    description: 'Grants ATK boost to ally',
+                    spCost: 15,
+                    targetType: 'single-ally',
+                    effects: [SkillEffectLibrary.applyStatus('atkBuff', 2)],
+                    emoji: '🙏'
+                });
+                break;
+                
+            case 'dps_aoe':
+                skills.push({
+                    name: 'Focused Blast',
+                    description: 'Single target high damage',
+                    spCost: 20,
+                    targetType: 'single-enemy', 
+                    effects: [SkillEffectLibrary.damage(180)],
+                    emoji: '💥'
+                });
+                break;
+                
+            case 'dps_st':
+                skills.push({
+                    name: 'Multi-Strike',
+                    description: 'Multiple hits on single target',
+                    spCost: 25,
+                    targetType: 'single-enemy',
+                    effects: [SkillEffectLibrary.damage(140)],
+                    emoji: '⚡'
+                });
+                break;
+                
+            case 'tank':
+                skills.push({
+                    name: 'Protective Stance',
+                    description: 'Increases defense and draws aggro',
+                    spCost: 20,
+                    targetType: 'self',
+                    effects: [
+                        SkillEffectLibrary.applyStatus('defBuff', 3),
+                        SkillEffectLibrary.applyStatus('taunt', 2)
+                    ],
+                    emoji: '🛡️'
+                });
+                break;
+        }
+        
+        return skills;
+    },
+    
+    getSkillEmoji: function(skillName) {
+        const emojiMap = {
+            'Purification Fountain': '⛲',
+            'Explosion': '💥',
+            'Luck of the Draw': '🎲',
+            'Ultimate Sacrifice... Maybe?': '💀',
+            'Elven Magic Circle': '🌟',
+            'Mana Lance': '⚡',
+            'Axe of the Fallen': '🪓'
+        };
+        return emojiMap[skillName] || '✨';
+    }
 };

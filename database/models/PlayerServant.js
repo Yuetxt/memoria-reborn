@@ -6,6 +6,22 @@ const { DataTypes, Model } = require('sequelize');
 class PlayerServant extends Model {
     static init(sequelize) {
         return super.init({
+            PlayerId: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                references: {
+                    model: 'players',
+                    key: 'id'
+                }
+            },
+            ServantId: {
+                type: DataTypes.STRING,
+                primaryKey: true,
+                references: {
+                    model: 'servants',
+                    key: 'id'
+                }
+            },
             level: {
                 type: DataTypes.INTEGER,
                 defaultValue: 1

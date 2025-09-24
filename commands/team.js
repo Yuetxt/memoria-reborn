@@ -1,5 +1,6 @@
 const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require('discord.js');
 const { Player, Servant, PlayerServant } = require('../database/Database');
+const config = require('../config.json');
 
 module.exports = {
     name: 'team',
@@ -31,10 +32,13 @@ module.exports = {
             .filter(s => s.PlayerServant.isInTeam)
             .sort((a, b) => a.PlayerServant.slot - b.PlayerServant.slot);
         
+        const teamSizeMin = config.battle.teamSizeMin;
+        const teamSizeMax = config.battle.teamSizeMax;
+        
         const embed = new EmbedBuilder()
             .setColor('#3498DB')
             .setTitle('📋 Team Formation')
-            .setDescription('Select servants for your team (3-4 members)\nSlot 1: Tank | Slots 2-3: DPS | Slot 4: Support');
+            .setDescription(`Select servants for your team (${teamSizeMin}-${teamSizeMax} members)\nSlot 1: Frontline (Tank) | Slots 2-3: Midline (DPS) | Slot 4: Backline (Support)`);
         
         // Display current team
         for (let i = 1; i <= 4; i++) {
@@ -110,7 +114,7 @@ module.exports = {
                 );
             } else {
                 // Add servant to slot
-                const servantId = parseInt(action);
+                const servantId = action; // Keep as string, don't convert to int
                 
                 // Remove from current slot if any
                 await PlayerServant.update(

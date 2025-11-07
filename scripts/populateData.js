@@ -5,17 +5,22 @@ const { Sequelize } = require('sequelize');
 const config = require('../config.json');
 const { servants } = require('../data/servantData');
 
-// Initialize Sequelize
-const sequelize = new Sequelize(
-    config.database.database,
-    config.database.user,
-    config.database.password,
-    {
-        host: config.database.host,
-        dialect: 'mysql',
-        logging: false
-    }
-);
+// // Initialize Sequelize
+// const sequelize = new Sequelize(
+//     config.database.database,
+//     config.database.user,
+//     config.database.password,
+//     {
+//         host: config.database.host,
+//         dialect: 'mysql',
+//         logging: false
+//     }
+// );
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'database.sqlite',
+    logging: false
+})
 
 // Import models
 const Servant = require('../database/models/Servant');

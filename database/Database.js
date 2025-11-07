@@ -1,17 +1,21 @@
 const { Sequelize } = require('sequelize');
 const { database } = require('../config.json');
 
-const sequelize = new Sequelize(
-    database.database,
-    database.user,
-    database.password,
-    {
-        host: database.host,
-        dialect: 'mysql',
-        logging: false,
-    }
-);
-
+// const sequelize = new Sequelize(
+//     database.database,
+//     database.user,
+//     database.password,
+//     {
+//         host: database.host,
+//         dialect: 'mysql',
+//         logging: false,
+//     }
+// );
+const sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: 'database.sqlite',
+    logging: false
+})
 // Import models
 const Player = require('./models/Player');
 const Servant = require('./models/Servant');

@@ -1,5 +1,7 @@
 import {AttachmentBuilder} from "discord.js";
 import * as path from "node:path";
+import servants from "../../data/servants.json"
+import floorData from "../../data/floors.json"
 
 export function lifeBar(
     chars: number,
@@ -16,7 +18,59 @@ export function lifeBar(
     const empty = total - filled;
 
     const bar = filledChar.repeat(filled) + emptyChar.repeat(empty);
-    return showPercent ? `${bar} ${p}%` : bar;
+    return showPercent ? `${bar} ${Math.round(p * 100)}%` : bar;
+}
+
+/**
+ * Creates a double life bar with two progress indicators
+ * @param chars - Total length of the bar
+ * @param firstPercent - First percentage (0-1)
+ * @param secondPercent - Second percentage (0-1)
+ * @param options - Configuration options
+ * @returns A string representing the combined life bar
+ */
+export function doubleLifeBar(
+    chars: number,
+    firstPercent: number,
+    secondPercent: number,
+    options?: {
+        firstChar?: string;
+        secondChar?: string;
+        emptyChar?: string;
+        showPercent?: boolean;
+        showSecondPercent?: boolean;
+    }
+): string {
+    const firstChar = options?.firstChar ?? ':green_square:';
+    const secondChar = options?.secondChar ?? ':blue_square:';
+    const emptyChar = options?.emptyChar ?? ':black_large_square:';
+    const showPercent = options?.showPercent ?? false;
+    const showSecondPercent = options?.showSecondPercent ?? showPercent;
+
+    const bar1 = lifeBar(chars, firstPercent, {
+        filledChar: firstChar,
+        emptyChar: emptyChar
+    }).replaceAll(emptyChar, "e").replaceAll(firstChar, "f")
+    const bar2 = lifeBar(chars, secondPercent, {
+        filledChar: secondChar,
+        emptyChar: emptyChar
+    }).replaceAll(emptyChar, "e").replaceAll(secondChar, "s").split("").reverse().join("")
+    const chart = {
+        "e": emptyChar,
+        "f": firstChar,
+        "s": secondChar
+    }
+    let bar = ""
+    for (let i = 0; i < chars; i++) {
+        const b1 = bar1[i]
+        const b2 = bar2[i]
+        if (b2 === "e") {
+            bar += chart[b1]
+        } else {
+            bar += chart[b2]
+        }
+    }
+    return bar
 }
 
 export function chance(percent: number) {
@@ -25,113 +79,182 @@ export function chance(percent: number) {
 
 export function createAttachment(p) {
     const attachment = new AttachmentBuilder(path.join(process.cwd(), p))
-    console.log(attachment, `attachment://${p.split("/").pop()}`)
     return `attachment://${p.split("/").pop()}`
 }
+
 import fs from 'fs/promises';
 import sharp from 'sharp';
+import {Passive} from "./passives";
+import {SkillShort} from "./skills";
+import {Fighter} from "./fighter";
+import {BattleEngine} from "./engine";
+import {BattleStats, Floor} from "../types/battle";
+import {green, red} from "../ansiFormatter";
 
-export async function createMinifiedImages(
-    inputDir: string,
-    options = {
-        quality: 80,
-        maxSizeKB: 250,  // Target max size in KB
-        maxAttempts: 5   // Max optimization attempts
+export function getServant(id: string): {
+    baseStats: {
+        atk: number
+        def: number
+        spd: number
+        maxhp: number
+    },
+    skills: (SkillShort | string)[]
+    passives: Passive[],
+    serie: string,
+    name: string
+} {
+    return servants[id]
+}
+
+export function toSkillId(name: string): string {
+    return name
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '') // Remove punctuation
+        .trim()
+        .replace(/\s+/g, '-'); // Replace spaces with hyphens
+}
+
+/**
+ * Selects a random item from an array based on provided weights
+ * @param items Array of items to choose from
+ * @param weights Array of weights corresponding to each item (higher = more likely)
+ * @returns The selected item from the array
+ * @throws If arrays are empty or have different lengths
+ */
+export function weightedRandom<T>(items: T[], weights: number[]): T {
+    if (items.length === 0 || weights.length === 0) {
+        throw new Error("Items and weights arrays must not be empty");
     }
-): Promise<void> {
-    try {
-        const files = await fs.readdir(inputDir, { withFileTypes: true });
+    if (items.length !== weights.length) {
+        throw new Error("Items and weights arrays must have the same length");
+    }
 
-        for (const file of files) {
-            const fullPath = path.join(inputDir, file.name);
+    // Calculate total weight
+    const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+    if (totalWeight <= 0) {
+        throw new Error("Total weight must be greater than 0");
+    }
 
-            if (file.isDirectory()) {
-                // Recursively process subdirectories
-                await createMinifiedImages(fullPath, options);
-                continue;
-            }
+    // Generate a random number between 0 and totalWeight
+    let random = Math.random() * totalWeight;
 
-            // Skip non-image files and already minified files
-            const ext = path.extname(file.name).toLowerCase();
-            const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
-            if (!imageExtensions.includes(ext) || file.name.includes('-min')) {
-                continue;
-            }
-
-            const { name } = path.parse(file.name);
-            const outputPath = path.join(inputDir, `${name}-min${ext}`);
-
-            // Skip if minified version already exists and is smaller than original
-            try {
-                const [origStats, minStats] = await Promise.all([
-                    fs.stat(fullPath),
-                    fs.stat(outputPath).catch(() => null)
-                ]);
-
-                if (minStats && minStats.size <= origStats.size) {
-                    console.log(`Skipping ${file.name} - minified version already exists and is smaller`);
-                    continue;
-                }
-            } catch (e) {
-                // If we can't access either file, just continue
-            }
-
-            await optimizeImage(fullPath, outputPath, options);
+    // Find the item where the random number falls in its weight range
+    for (let i = 0; i < items.length; i++) {
+        if (random < weights[i]) {
+            return items[i];
         }
-    } catch (error) {
-        console.error(`Error processing directory ${inputDir}:`, error);
-        throw error;
+        random -= weights[i];
+    }
+
+    // Fallback to last item (should theoretically never reach here if weights are valid)
+    return items[items.length - 1];
+}
+
+function rndChoice(list) {
+    return list[Math.floor(Math.random() * list.length)]
+}
+
+// Shortcuts get targets
+const enemy = (p: Fighter, e: BattleEngine) => [e.aliveDiff(p)[0]]
+const enemies = (p: Fighter, e: BattleEngine) => e.aliveDiff(p)
+const ally = (p: Fighter, e: BattleEngine) => [e.aliveSame(p)[0]]
+const allies = (p: Fighter, e: BattleEngine) => e.aliveSame(p)
+const randomEnemy = (p: Fighter, e: BattleEngine) => [rndChoice(e.aliveDiff(p))]
+const randomAlly = (p: Fighter, e: BattleEngine) => [rndChoice(e.aliveSame(p))]
+
+export const targetsStrings = {
+    "all_a": allies,
+    "all_e": enemies,
+    "fst_a": ally,
+    "fst_e": enemy,
+    "rnd_a": randomAlly,
+    "rnd_e": randomEnemy,
+    "self": (p: Fighter, e: BattleEngine) => [p]
+}
+
+export function shuffle(a: any[]) {
+    let array = [...a]
+    let currentIndex = array.length;
+
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+
+        // Pick a remaining element...
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+    }
+    return array
+}
+
+export function getStatsString(stats: Partial<BattleStats>, color = false): string {
+    const statNames: Record<string, string> = {
+        'hp': 'HP',
+        'atk': 'ATK',
+        'def': 'DEF',
+        'spd': 'SPD',
+        'acc': 'ACC',
+        'crit_chance': 'CRIT',
+        'crit_dmg': 'CRIT DMG',
+        'evs': 'EVS',
+        'maxHp': 'MAX HP',
+        "dmg_taken": "Dmg taken",
+        "dmg_dealt": "Dmg dealt"
+    };
+
+    return Object.entries(stats)
+        .map(([key, value]) => {
+            const statName = statNames[key] || key.replaceAll("_", " ").toUpperCase();
+            const sign = value >= 0 ? '+' : '-';
+            const absValue = Math.abs(Math.round(value));
+            const txt = `${statName}${sign}${absValue}%`
+            let buff = value >= 0
+            if(key === "dmg_taken") {
+                buff = !buff
+            }
+            return color ? buff ? green(txt) : red(txt) : txt;
+        })
+        .join(', ');
+}
+
+export function parseFloor(f: string): Floor {
+    // floor format = floor-sub
+    const [floor, sub] = f.split("-")
+    return {
+        floor: parseInt(floor),
+        sub: parseInt(sub)
     }
 }
 
-async function optimizeImage(
-    inputPath: string,
-    outputPath: string,
-    options: { quality: number; maxSizeKB: number; maxAttempts: number }
-): Promise<void> {
-    try {
-        const inputStats = await fs.stat(inputPath);
-        const inputSizeKB = inputStats.size / 1024;
+export const MAX_FLOOR: Floor = {
+    floor: floorData.length,
+    sub: floorData[floorData.length - 1].subs.length
+}
+export const superior = (f1: Floor, f2: Floor) => {
+    if (f1.floor > f2.floor) return true
+    if (f1.floor < f2.floor) return false
+    return f1.sub > f2.sub
+}
 
-        if (inputSizeKB <= options.maxSizeKB) {
-            console.log(`Skipping ${path.basename(inputPath)} - already under ${options.maxSizeKB}KB`);
-            return;
+export function validateFloor(f: Floor) {
+    if (f.floor > floorData.length) return false
+    return f.floor <= floorData.length && f.sub < floorData[f.floor - 1].subs.length
+}
+
+export function getNextFloor(f: Floor) {
+    if (!validateFloor(f)) return
+    if (f.sub < floorData[f.floor - 1].subs.length) {
+        return {
+            floor: f.floor,
+            sub: f.sub + 1
         }
-
-        console.log(`Optimizing ${path.basename(inputPath)} (${inputSizeKB.toFixed(2)}KB)`);
-
-        let quality = options.quality;
-        let outputSizeKB = inputSizeKB;
-        let attempt = 0;
-
-        // Try to reduce size while maintaining quality
-        while (outputSizeKB > options.maxSizeKB && attempt < options.maxAttempts) {
-            await sharp(inputPath)
-                .jpeg({
-                    quality,
-                    mozjpeg: true,
-                    progressive: true
-                })
-                .toFile(outputPath);
-
-            const outputStats = await fs.stat(outputPath);
-            outputSizeKB = outputStats.size / 1024;
-
-            console.log(`  Attempt ${attempt + 1}: Quality ${quality}% -> ${outputSizeKB.toFixed(2)}KB`);
-
-            if (outputSizeKB > options.maxSizeKB) {
-                quality -= 10; // Reduce quality more aggressively
-                attempt++;
-            }
+    } else {
+        return {
+            floor: f.floor + 1,
+            sub: 1
         }
-
-        if (outputSizeKB <= options.maxSizeKB) {
-            console.log(`✅ Success: ${path.basename(outputPath)} (${outputSizeKB.toFixed(2)}KB)`);
-        } else {
-            console.log(`⚠️  Could not reduce ${path.basename(inputPath)} below ${options.maxSizeKB}KB (best: ${outputSizeKB.toFixed(2)}KB)`);
-        }
-    } catch (error) {
-        console.error(`Error optimizing ${path.basename(inputPath)}:`, error);
-        throw error;
     }
 }

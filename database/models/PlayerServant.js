@@ -17,9 +17,13 @@ class PlayerServant extends Model {
             ServantId: {
                 type: DataTypes.STRING,
                 primaryKey: true,
-                references: {
-                    model: 'servants',
-                    key: 'id'
+            },
+            rarity: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                validate: {
+                    min: 4,
+                    max: 10
                 }
             },
             level: {

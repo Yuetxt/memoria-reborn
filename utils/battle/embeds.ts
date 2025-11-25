@@ -6,7 +6,7 @@ import {Fighter} from "./fighter";
 
 function createTeamEmbed(battle: BattleEngine) {
     return new ContainerBuilder().setAccentColor(0x0099ff)
-        .addSectionComponents(battle.fighters.filter(f => f.ally).map(f => f.section))
+        .addSectionComponents(battle.fighters.filter(f => f.isPlayer).map(f => f.section))
 }
 
 function createTurnEmbed(fighter: Fighter) {

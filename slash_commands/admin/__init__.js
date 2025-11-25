@@ -1,0 +1,2 @@
+const {SlashCommandBuilder, PermissionFlagsBits} = require("discord.js");
+module.exports = new SlashCommandBuilder().setName("admin").setDescription("Admin commands").setDefaultMemberPermissions(PermissionFlagsBits.Administrator)

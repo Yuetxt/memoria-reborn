@@ -1,0 +1,46 @@
+{
+  "actionTurnDuration": 60,
+  "nonActionTurnDuration": 3,
+  "maxSp": 1000,
+  "startSp": 1000,
+  "bossStaminaCost": 10,
+  "baseStaminaCost": 5,
+  "simpleFight": {
+    "skillCooldowns": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "skillProb": [
+      0.4,
+      0.3,
+      0.2,
+      0.1
+    ]
+  },
+  "bossFight": {
+    "skillCooldowns": [
+      0,
+      1,
+      2
+    ],
+    "skillProb": [
+      0.4,
+      0.3,
+      0.3
+    ]
+  },
+  "secondPhaseFight": {
+    "skillCooldowns": [
+      0,
+      1,
+      2
+    ],
+    "skillProb": [
+      0.4,
+      0.3,
+      0.3
+    ]
+  }
+}

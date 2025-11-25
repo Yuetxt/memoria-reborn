@@ -876,7 +876,7 @@ function generateEnemies(floor) {
             stats: {
                 atk: (isBoss ? 120 : 80) + mainFloor * (isBoss ? 60 : 30),
                 def: (isBoss ? 100 : 60) + mainFloor * (isBoss ? 50 : 25),
-                hp: ((isBoss ? 800 : 400) + mainFloor * (isBoss ? 300 : 150)) * 10,
+                hp:  ((isBoss ? 800 : 400) + mainFloor * (isBoss ? 300 : 150)) * 10,
                 spd: (isBoss ? 60 : 40) + mainFloor * (isBoss ? 15 : 10)
             },
             skills: [
@@ -924,7 +924,6 @@ function generateEnemies(floor) {
                     }
                 ]
             };
-            
             enemy.currentHp = enemy.stats.hp;
             enemies.push(enemy);
         }

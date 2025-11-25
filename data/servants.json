@@ -1,0 +1,505 @@
+{
+  "aqua": {
+    "name": "Aqua",
+    "stats": {
+      "atk": 91,
+      "def": 130,
+      "spd": 115,
+      "hp": 1540
+    },
+    "role": "support",
+    "element": "water",
+    "series": "konosuba",
+    "skills": [
+      {
+        "name": "Purification Fountain",
+        "cost": 8,
+        "effects": [
+          "{all_a} heal 15% self;clean"
+        ]
+      }
+    ],
+    "passives": [
+      {
+        "name": "Goddess of trouble",
+        "boards": [
+          {
+            "onSkill": {
+              "chance": 25,
+              "effects": ["hploss 50%","stat ATK+15% 1-2 {all_a}"]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "megumin": {
+    "name": "Megumin",
+    "stats": {
+      "atk": 155,
+      "def": 92,
+      "spd": 91,
+      "hp": 1060
+    },
+    "role": "dps",
+    "element": "fire",
+    "series":  "konosuba",
+    "skills": [
+      {
+        "name": "Explosion",
+        "cost": 10,
+        "effects": [
+          "DMG 300% FIRE {all_e}",
+          "alt stun 1-1 {self}"
+        ]
+      }
+    ],
+    "passives": ["explosion-mastery"]
+  },
+  "kazuma-saito": {
+    "name": "Kazuma saito",
+    "stats": {
+      "atk": 130,
+      "def": 97,
+      "spd": 124,
+      "hp": 1160
+    },
+    "element": "wind",
+    "role": "dps",
+    "series": "konosuba",
+    "skills": [
+      "luck-of-the-draw"
+    ],
+    "passives": ["lucky-pervert"]
+  },
+  "darkness": {
+    "name": "Darkness",
+    "stats": {
+      "atk": 93,
+      "def": 142,
+      "spd": 88,
+      "hp": 1550
+    },
+    "role": "tank",
+    "element": "light",
+    "series": "konosuba",
+    "skills": [
+      "ultimate-sacrifice"
+    ],
+    "passives": ["masochist-resolve"]
+  },
+  "frieren": {
+    "name": "Frieren",
+    "stats": {
+      "atk": 132,
+      "def": 117,
+      "spd": 145,
+      "hp": 1020
+    },
+    "role": "dps",
+    "element": "nature",
+    "series":  "Sousou no Frieren",
+    "skills": [
+      {
+        "name": "Elven Magic Circle",
+        "cost": 6,
+        "effects": [
+          "DMG 170% NATURE {all_e}"
+        ]
+      }
+    ],
+    "passives": ["timeless-aegis"]
+  },
+  "fern": {
+    "name": "Fern",
+    "stats": {
+      "atk": 141,
+      "def": 97,
+      "spd": 141,
+      "hp": 980
+    },
+    "role": "dps",
+    "element": "light",
+    "series": "Sousou no Frieren",
+    "skills": [
+      {
+        "name": "Mana Lance",
+        "cost": 4,
+        "populateTargets": true,
+        "effects": [
+          "DMG 150% LIGHT;stat SPD-20% 1-2 [25]"
+        ]
+      }
+    ],
+    "passives": ["crescendo"]
+  },
+  "stark": {
+    "name": "Stark",
+    "stats": {
+      "atk": 99,
+      "def": 144,
+      "spd": 118,
+      "hp": 1300
+    },
+    "role": "tank",
+    "element": "earth",
+    "series": "Sousou no Frieren",
+    "skills": [
+      {
+        "name": "Axe of the Fallen",
+        "cost": 4,
+        "effects": [
+          "{all_e} DMG 100% EARTH;stat ATK-15% 1-2",
+          "shield DEF-25% 1-2"
+        ]
+      }
+    ],
+    "passives": ["unyelding-oath"]
+  },
+  "saber": {
+    "name": "Saber",
+    "stats": {
+      "atk": 104,
+      "def": 158,
+      "spd": 101,
+      "hp": 1380
+    },
+    "role": "tank",
+    "element": "light",
+    "series":  "Fate stay night unlimited blade works",
+    "skills": [
+      {
+        "name": "Excalibur's Resolve",
+        "cost": 5,
+        "effects": [
+          "stat dmg_taken-40 1-2 {all_a}",
+          "alt regen 1-3 {self}"
+        ]
+      }
+    ],
+    "passives": ["kings-duty"]
+  },
+  "rin-tohsaka": {
+    "name": "Rin Tohsaka",
+    "stats": {
+      "atk": 147,
+      "def": 92,
+      "spd": 120,
+      "hp": 1240
+    },
+    "role": "dps",
+    "element": "electric",
+    "series": "Fate stay night unlimited blade works",
+    "skills": [
+      {
+        "name": "Gem Burst",
+        "cost": 5,
+        "populateTargets": true,
+        "effects": [
+          "DMG 230% ELECTRIC;alt paralysis [30]"
+        ]
+      }
+    ],
+    "passives": ["magical-prodigy"]
+  },
+  "souma-yukihira": {
+    "name": "Souma Yukihira",
+    "stats": {
+      "atk": 151,
+      "def": 111,
+      "spd": 102,
+      "hp": 1200
+    },
+    "role": "dps",
+    "element": "fire",
+    "series":  "Shokugeki no Souma",
+    "skills": [
+      {
+        "name": "Flare of inspiration",
+        "cost": 6,
+        "populateTargets": true,
+        "effects": [
+          "DMG 200% FIRE",
+          "stat ATK+10% {all_a}"
+        ]
+      }
+    ],
+    "passives": ["culinary-duelist"]
+  },
+  "rindo-kobayashi": {
+    "name": "Rindō Kobayashi",
+    "stats": {
+      "atk": 95,
+      "def": 114,
+      "spd": 151,
+      "hp": 1170
+    },
+    "role": "control",
+    "element": "nature",
+    "series": "Shokugeki no Souma",
+    "skills": [
+      "predators-platter"
+    ],
+    "passives": ["jungle-resonance"]
+  },
+  "nobara-kugisaki": {
+    "name": "Nobara Kugisaki",
+    "stats": {
+      "atk": 105,
+      "def": 115,
+      "spd": 139,
+      "hp": 1290
+    },
+    "role": "control",
+    "element": "darkness",
+    "series":  "Jujutsu Kaisen",
+    "skills": [
+      {
+        "name": "Straw Doll Technique",
+        "cost": 5,
+        "populateTargets": true,
+        "effects": [
+          "DMG 100% DARK;stat dmg_taken+20 1-2"
+        ]
+      }
+    ],
+    "passives": ["resonance"]
+  },
+  "yuji-itadori": {
+    "name": "Yuji Itadori",
+    "stats": {
+      "atk": 128,
+      "def": 124,
+      "spd": 129,
+      "hp": 1210
+    },
+    "role": "dps",
+    "element": "electric",
+    "series": "Jujutsu Kaisen",
+    "skills": [
+      "divergent-fist"
+    ],
+    "passives": ["shared-body"]
+  },
+  "megumi-fushiguro": {
+    "name": "Megumi Fushiguro",
+    "stats": {
+      "atk": 102,
+      "def": 138,
+      "spd": 115,
+      "hp": 1200
+    },
+    "role": "control",
+    "series": "Jujutsu Kaisen",
+    "skills": [
+      "ten-shadow-assault"
+    ],
+    "passives": ["cursed-intimidation"]
+  },
+  "makima": {
+    "name": "Makima",
+    "stats": {
+      "atk": 97,
+      "def": 133,
+      "spd": 148,
+      "hp": 1010
+    },
+    "role": "control",
+    "element": "darkness",
+    "series":  "Chainsaw Man",
+    "skills": [
+      "perfect-world"
+    ],
+    "passives": ["hierarchy-favor"]
+  },
+  "power": {
+    "name": "Power",
+    "stats": {
+      "atk": 131,
+      "def": 109,
+      "spd": 128,
+      "hp": 1200
+    },
+    "role": "dps",
+    "element": "darkness",
+    "series": "Chainsaw Man",
+    "skills": [
+      "bloodlust-cleaver"
+    ],
+    "passives": ["devil-appetite"]
+  },
+  "subaru": {
+    "name": "Subaru",
+    "stats": {
+      "atk": 83,
+      "def": 151,
+      "spd": 95,
+      "hp": 1550
+    },
+    "role": "tank",
+    "series": "Re zero",
+    "skills": [
+      "i-wont-let-this-happen"
+    ],
+    "passives": ["return-by-death"]
+  },
+  "rem": {
+    "name": "Rem",
+    "stats": {
+      "atk": 122,
+      "def": 133,
+      "spd": 102,
+      "hp": 1300
+    },
+    "role": "dps",
+    "element": "fire",
+    "series":"Re zero",
+    "skills": [
+      {
+        "name": "Oni Rampage",
+        "cost": 4,
+        "populateTargets": true,
+        "effects": [
+          "DMG 150% FIRE;alt burn 5-3"
+        ]
+      }
+    ],
+    "passives": ["burnproof-resolve"]
+  },
+  "emilia": {
+    "name": "Emilia",
+    "stats": {
+      "atk": 87,
+      "def": 129,
+      "spd": 134,
+      "hp": 1400
+    },
+    "role": "support",
+    "element": "ice",
+    "series":"Re zero",
+    "skills": [
+      {
+        "name": "Glacial Blessing",
+        "cost": 5,
+        "effects": [
+          "heal 15% caster {all_a};winter-edge"
+        ]
+      }
+    ],
+    "passives": ["heart-of-ice"]
+  },
+  "maomao": {
+    "name": "Maomao",
+    "stats": {
+      "atk": 81,
+      "def": 130,
+      "spd": 133,
+      "hp": 1410
+    },
+    "role": "support",
+    "element": "nature",
+    "series": "The Apothecary Diaries",
+    "skills": [
+      {
+        "name": "Essence Infusion",
+        "cost": 4,
+        "populateTargets": true,
+        "ally": true,
+        "effects": [
+          "heal 70%;stat debuffres+20 1-2"
+        ]
+      }
+    ],
+    "passives": ["spirit-ward"]
+  },
+  "makise-kurisu": {
+    "name": "Makise Kurisu",
+    "stats": {
+      "atk": 146,
+      "def": 94,
+      "spd": 110,
+      "hp": 1250
+    },
+    "role": "dps",
+    "element": "ice",
+    "series":  "Steins gate",
+    "skills": [
+      {
+        "name": "Shatter Protocol",
+        "cost": 7,
+        "populateTargets": true,
+        "effects": [
+          "DMG 150% ICE;already-frozen"
+        ]
+      }
+    ],
+    "passives": ["quantum-analyst"]
+  },
+  "okabe-rintaro": {
+    "name": "Okabe Rintaro",
+    "stats": {
+      "atk": 108,
+      "def": 117,
+      "spd": 137,
+      "hp": 1200
+    },
+    "role": "control",
+    "series": "Steins gate",
+    "skills": [
+      {
+        "name": "Reader Steiner",
+        "cost": 4,
+        "populateTargets": true,
+        "effects": [
+          "DMG 100%;alt paralysis;debuff-sp"
+        ]
+      }
+    ],
+    "passives": ["el-psy-kongroo"]
+  },
+  "shiina-mayuri": {
+    "name": "Shiina Mayuri",
+    "stats": {
+      "atk": 80,
+      "def": 130,
+      "spd": 122,
+      "hp": 1550
+    },
+    "role": "support",
+    "element": "light",
+    "series": "Steins gate",
+    "skills": [
+      {
+        "name": "Tuturu",
+        "cost": 5,
+        "effects": [
+          "{all_a} heal 10% caster;alt regen"
+        ]
+      }
+    ],
+    "passives": ["temporal-harmony"]
+  },
+  "himiko-toga": {
+    "name": "Toga Himiko",
+    "stats": {
+      "atk": 120,
+      "def": 99,
+      "spd": 134,
+      "hp": 1200
+    },
+    "role": "dps",
+    "element": "toxic",
+    "series": "Boku no Hero Academia",
+    "skills": [
+      {
+        "name": "Blood Injection",
+        "cost": 5,
+        "populateTargets": true,
+        "effects": [
+          "DMG 100% TOXIC;alt bleed;already-bleeding"
+        ]
+      }
+    ],
+    "passives": ["bleeding-beauty"]
+  }
+}

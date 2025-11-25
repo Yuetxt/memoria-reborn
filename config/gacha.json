@@ -1,0 +1,7 @@
+{
+    "rarityDropRates": [0.7, 0.25, 0.05],
+    "increaseTrigger": 70,
+    "forceMaxRarity": 90,
+    "baseRarity": 4,
+    "rarityChar": "⭐"
+}

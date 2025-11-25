@@ -1,96 +1,68 @@
-const { DataTypes, Model } = require('sequelize');
+import {Sequelize, Model, DataTypes} from "sequelize";
 
-class Player extends Model {
+export class Player extends Model {
     static init(sequelize) {
         return super.init({
             discordId: {
                 type: DataTypes.STRING,
-                unique: true,
+                primaryKey: true,
                 allowNull: false
             },
-            username: {
-                type: DataTypes.STRING,
-                allowNull: false
-            },
-            level: {
+            lvl: {
                 type: DataTypes.INTEGER,
+                allowNull: false,
                 defaultValue: 1
             },
-            experience: {
+            xp: {
                 type: DataTypes.INTEGER,
+                allowNull: false,
                 defaultValue: 0
             },
             stamina: {
                 type: DataTypes.INTEGER,
-                defaultValue: 100
+                allowNull: false,
+                defaultValue: 100,
+                validate: {
+                    min: 0,
+                    max: 100
+                }
             },
-            maxStamina: {
+            lastStaminaRecharge: {
                 type: DataTypes.INTEGER,
-                defaultValue: 100
+                allowNull: false,
+                defaultValue: 0
+            },
+            floor: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: '1-1'
+            },
+            pulls: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 0
             },
             gold: {
                 type: DataTypes.INTEGER,
-                defaultValue: 0
-            },
-            gems: {
-                type: DataTypes.INTEGER,
-                defaultValue: 0
-            },
-            currentFloor: {
-                type: DataTypes.STRING,
-                defaultValue: '1-1'
-            },
-            lastStaminaRegen: {
-                type: DataTypes.DATE,
-                defaultValue: DataTypes.NOW
-            },
-            totalBattlesWon: {
-                type: DataTypes.INTEGER,
-                defaultValue: 0
-            },
-            totalQuestsCompleted: {
-                type: DataTypes.INTEGER,
+                allowNull: false,
                 defaultValue: 0
             }
-        }, {
-            sequelize,
-            modelName: 'Player',
-            tableName: 'players'
+        }, {sequelize, tableName: "Players", modelName: "Player", timestamps: false})
+    }
+
+    static associate(models) {
+        // Define association with Servant
+        this.hasMany(models.Servants, {
+            foreignKey: 'playerId',
+            sourceKey: 'discordId',
+            as: 'servants'
         });
     }
 
-    async regenerateStamina() {
-        const now = new Date();
-        const lastRegen = new Date(this.lastStaminaRegen);
-        const minutesPassed = Math.floor((now - lastRegen) / 60000);
-        
-        if (minutesPassed >= 4) {
-            const staminaToAdd = Math.floor(minutesPassed / 4);
-            const newStamina = Math.min(this.stamina + staminaToAdd, this.maxStamina);
-            
-            await this.update({
-                stamina: newStamina,
-                lastStaminaRegen: now
-            });
-        }
-    }
-
-    async addExperience(amount) {
-        this.experience += amount;
-        
-        // Level up logic
-        const expNeeded = this.level * 100; // Simple formula, can be adjusted
-        if (this.experience >= expNeeded) {
-            this.level += 1;
-            this.experience -= expNeeded;
-            this.maxStamina += 10;
-            this.stamina = this.maxStamina;
-            await this.save();
-            return true; // Leveled up
-        }
-        await this.save();
-        return false; // No level up
+    rechargeStamina() {
+        const elapsed = Math.floor(Date.now() / 1000) - this.lastStaminaRecharge
+        const minutesElapsed = Math.floor(elapsed / 60)
+        this.stamina = Math.min(this.stamina + Math.floor(minutesElapsed / 4), 100)
+        this.lastStaminaRecharge = Math.floor(Date.now() / 1000)
     }
 }
-
-module.exports = Player;

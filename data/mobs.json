@@ -1,0 +1,406 @@
+{
+  "grassland-wolf": {
+    "name": "Grassland Wolf",
+    "stats": {
+      "atk": 150,
+      "def": 130,
+      "spd": 130,
+      "hp": 500
+    },
+    "element": "nature",
+    "skills": [
+      {
+        "name": "Pouncing Fang",
+        "effects": [
+          "DMG 120% {fst_e}"
+        ]
+      },
+      "pack-tactics"
+    ],
+    "passives": []
+  },
+  "giant-frog": {
+    "name": "Giant Frog",
+    "stats": {
+      "atk": 135,
+      "def": 130,
+      "spd": 120,
+      "hp": 600
+    },
+    "element": "water",
+    "skills": [
+      "tongue-snatch",
+      {
+        "name": "Slime Coating",
+        "effects": [
+          "stat evs+20 1-2 {self}"
+        ]
+      }
+    ],
+    "passives": []
+  },
+  "grand-terrapin": {
+    "name": "Grand Terrapin",
+    "stats": {
+      "atk": 130,
+      "def": 150,
+      "spd": 130,
+      "hp": 800
+    },
+    "element": "earth",
+    "skills": [
+      {
+        "name": "Heavy Stomps",
+        "effects": [
+          "DMG 120% {fst_e};alt stun 1-1 [25]"
+        ]
+      },
+      {
+        "name": "Shell Shield",
+        "effects": [
+          "alt barrier 1-2"
+        ]
+      }
+    ],
+    "passives": []
+  },
+  "wind-spirit": {
+    "name": "Wind Spirit",
+    "stats": {
+      "atk": 150,
+      "def": 120,
+      "spd": 120,
+      "hp": 350
+    },
+    "element": "wind",
+    "skills": [
+      {
+        "name": "Gale Force",
+        "effects": [
+          "dmg 100% {all_e}"
+        ]
+      },
+      {
+        "name": "Whispering Wind",
+        "effects": [
+          "stat spd+10% {rnd_a}"
+        ]
+      }
+    ],
+    "passives": []
+  },
+  "plains-gryphon": {
+    "name": "Plains Gryphon",
+    "stats": {
+      "atk": 155,
+      "def": 130,
+      "spd": 140,
+      "hp": 770
+    },
+    "element": "wind",
+    "skills": [
+      {
+        "name": "Talon Swipe",
+        "effects": [
+          "dmg 120% {fst_e}"
+        ]
+      },
+      {
+        "name": "Aerial Assault",
+        "effects": [
+          "dmg 100% {rnd_e}",
+          "dmg 100% {rnd_e}"
+        ]
+      }
+    ],
+    "passives": []
+  },
+  "bioluminescent-anglerfish": {
+    "name": "Bioluminescent Anglerfish",
+    "stats": {
+      "atk": 203,
+      "def": 162,
+      "spd": 139,
+      "hp": 728
+    },
+    "element": "water",
+    "skills": [
+      {
+        "name": "Luminous Strike",
+        "effects": [
+          "dmg 120% {fst_e};stat acc-30 [25]"
+        ]
+      },
+      {
+        "name": "Abyssal Pulse",
+        "effects": [
+          "dmg 100% {all_e}"
+        ]
+      }
+    ],
+    "passives": []
+  },
+  "stalagbite-worm": {
+    "name": "Stalagbite Worm",
+    "stats": {
+      "atk": 245,
+      "def": 181,
+      "spd": 153,
+      "hp": 1658
+    },
+    "element": "earth",
+    "skills": [
+      "burrow-hide",
+      "cave-collapse"
+    ]
+  },
+  "magmafang": {
+    "name": "Magmafang",
+    "stats": {
+      "atk": 237,
+      "def": 141,
+      "spd": 194,
+      "hp": 1061
+    },
+    "element": "fire",
+    "skills": [
+      {
+        "name": "Fire Fang",
+        "effects": [
+          "dmg 110% {fst_e};alt burn 10-2"
+        ]
+      },
+      {
+        "name": "Blazing Dive",
+        "effects": [
+          "dmg 100% {rnd_e}",
+          "stat evs+20 1-2 {self}"
+        ]
+      }
+    ],
+    "passives": []
+  },
+  "water-drake": {
+    "name": "Water Drake",
+    "stats": {
+      "atk": 215,
+      "def": 273,
+      "spd": 144,
+      "hp": 2319
+    },
+    "element": "water",
+    "skills": [
+      {
+        "name": "Hydro Blast",
+        "effects": [
+          "dmg 140% WATER {fst_e};stat def-10% 1-2"
+        ]
+      },
+      {
+        "name": "Aqua Shield",
+        "effects": [
+          "shield max_hp-20% 1-2"
+        ]
+      }
+    ],
+    "passives": []
+  },
+  "tempest-harpy": {
+    "name": "Tempest Harpy",
+    "stats": {
+      "atk": 205,
+      "def": 151,
+      "spd": 288,
+      "hp": 1363
+    },
+    "element": "wind",
+    "skills": [
+      {
+        "name": "Razor Gale",
+        "effects": [
+          "dmg 120% wind {fst_e};alt bleed 10-2"
+        ]
+      },
+      {
+        "name": "Cyclone Dive",
+        "effects": [
+          "dmg 90% wind {all_e};alt spd-10% 1-2"
+        ]
+      }
+    ],
+    "passives": []
+  },
+  "thunder-drake": {
+    "name": "Thunder Drake",
+    "stats": {
+      "atk": 284,
+      "def": 214,
+      "spd": 154,
+      "hp": 2630
+    },
+    "element": "electric",
+    "skills": [
+      {
+        "name": "Volt Fang",
+        "effects": [
+          "dmg 130% electric {fst_e};alt paralysis 1-2 [30]"
+        ]
+      },
+      {
+        "name": "Thunder Roar",
+        "effects": [
+          "dmg 100% electric {all_e}"
+        ]
+      }
+    ],
+    "passives": []
+  },
+  "stormcaller-shaman": {
+    "name": "Stormcaller Shaman",
+    "stats": {
+      "atk": 316,
+      "def": 197,
+      "spd": 154,
+      "hp": 1754
+    },
+    "element": "electric",
+    "skills": [
+      {
+        "name": "Lightning Invocation",
+        "effects": [
+          "dmg 110% electric {all_e};alt paralysis 1-1 [25]"
+        ]
+      },
+      "tempest-ward"
+    ],
+    "passives": []
+  },
+  "taranite-colossus": {
+    "name": "Taranite Colossus",
+    "stats": {
+      "atk": 210,
+      "def": 347,
+      "spd": 143,
+      "hp": 3488
+    },
+    "element": "earth",
+    "skills": [
+      "granite-crush",
+      {
+        "name": "Blackstone Eruption",
+        "effects": [
+          "dmg 90% {all_e}"
+        ]
+      }
+    ],
+    "passives": []
+  },
+  "manannan-mac-lir": {
+    "name": " Manannán mac Lir",
+    "boss": true,
+    "stats": {
+      "atk": 318,
+      "def": 213,
+      "spd": 173,
+      "hp": 4153
+    },
+    "element": "water",
+    "skills": [
+      {
+        "name": "Water Shield",
+        "effects": [
+          "shield 20%"
+        ]
+      },
+      {
+        "name": "Tidal Surge",
+        "effects": [
+          "dmg 140% water {rnd_e};stat def-5% 1-2"
+        ]
+      },
+      {
+        "name": "Torrent Blast",
+        "effects": [
+          "dmg 120% {rnd_e}",
+          "dmg 120% {rnd_e}"
+        ]
+      }
+    ],
+    "passives": ["briny-fortitude"]
+  },
+  "epona": {
+    "name": "Epona",
+    "stats": {
+      "atk": 224,
+      "def": 143,
+      "spd": 190,
+      "hp": 1999
+    },
+    "boss": true,
+    "element": "earth",
+    "skills": [
+      "spirit-of-the-plains",
+      {
+        "name": "Nature's Wrath",
+        "effects": [
+          "DMG 110% {all_e};stat DEF-15% 1-2"
+        ]
+      },
+      {
+        "name": "Hooves of Fury",
+        "effects": [
+          "DMG 120% {fst_e};alt stun [25]"
+        ]
+      }
+    ],
+    "passives": ["stoneform"]
+  },
+  "grace-omalley": {
+    "name": "Grace O'Malley",
+    "stats": {
+      "atk": 306,
+      "def": 162,
+      "spd": 221,
+      "hp": 3953
+    },
+    "boss": true,
+    "element": "electric",
+    "skills": [
+      {
+        "name": "Chainshot Bolt",
+        "effects": [
+          "DMG 120% electric {fst_e};alt shock 1-2"
+        ]
+      },
+      {
+        "name": "Lightning Salvo",
+        "effects": [
+          "DMG 95% electric {all_e};alt shock 1-2 [25];stat spd-20% [25]"
+        ]
+      },
+      {
+        "name": "Storm over Clew Bay",
+        "effects": [
+          "DMG 120% electric {all_e}"
+        ]
+      }
+    ],
+    "passive": ["ruler-of-clew-bay"]
+  },
+  "taramis": {
+    "name": "Taramis",
+    "stats": {
+      "atk": 212,
+      "def": 159,
+      "spd": 350,
+      "hp": 4691
+    },
+    "boss": true,
+    "element": "electric",
+    "skills": [
+      "thunder-rampage",
+      "arcstorm-overdrive",
+      "electromagnetic-field"
+    ]
+  }
+}

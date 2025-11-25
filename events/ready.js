@@ -8,13 +8,13 @@ module.exports = {
         client.user.setActivity('!start to begin your adventure', { type: 0 }); // 0 = Playing
         
         // Start stamina regeneration timer
-        setInterval(async () => {
-            const { Player } = require('../database/Database');
-            const players = await Player.findAll();
-            
-            for (const player of players) {
-                await player.regenerateStamina();
-            }
-        }, 60000); // Check every minute
+        // setInterval(async () => {
+        //     const { Player } = require('../database/Database');
+        //     const players = await Player.findAll();
+        //
+        //     for (const player of players) {
+        //         await player.regenerateStamina();
+        //     }
+        // }, 60000); // Check every minute
     }
 };

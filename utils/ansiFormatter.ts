@@ -104,19 +104,6 @@ export const styles = {
     }
 };
 
-// Example usage:
-/*
-console.log(red('This is red text'));
-console.log(bgBlue(white('White text on blue background')));
-console.log(bold(green('Bold green text')));
-console.log(underline(blue('Underlined blue text')));
-console.log(color256(202, 'Orange text using 256 colors'));
-console.log(rgb(255, 105, 180, 'Pink text using RGB'));
-console.log(styles.error('Error message'));
-console.log(styles.warningBg('Warning with background'));
-console.log(styles.status.ok('Operation completed successfully'));
-console.log(styles.status.error('An error occurred'));
-*/
 
 export default {
     // Basic colors

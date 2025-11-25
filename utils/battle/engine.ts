@@ -7,8 +7,9 @@ import {
     TextDisplayBuilder
 } from "discord.js";
 import {createAttachment, lifeBar} from "./utils";
-import {Skill} from "./types";
-
+import {Skill} from "./skills";
+import battleConfig from "../../config/battle.json"
+import {yellow} from "../ansiFormatter";
 export function generateId(prefix = '', randomChars = 8): string {
     const ts = Date.now().toString(36);
     const rand = Array.from({length: randomChars})
@@ -20,98 +21,111 @@ export function generateId(prefix = '', randomChars = 8): string {
 export class BattleEngine {
     id: string
     fighters: Fighter[]
-    order: Fighter[]
-    turn: number
+    turn: number = 0
     skillPoints: number
-    battleLog: string[]
+    battleLog: { line: string, ts: number, turn: number }[]
     isOver: boolean
-    winner: string
-    turns: Fighter[]
-    currentTurn: Fighter
+    win: boolean
+    simulatedTurns: Fighter[]
+    currentTurn: Fighter[]
+    currentAction: Fighter
     mobile: boolean
     initiativeRequired: number
 
     allySp: number = 0
-    ennemySp: number = 0
 
     allySpText: TextDisplayBuilder
+    turnContainer: ContainerBuilder
 
     startAlive: Fighter[]
 
+    get currentLog() {
+        return this.battleLog.filter(l => l.turn == this.turn).sort((a, b) => a.ts - b.ts)
+    }
+
     get allies() {
-        return this.fighters.filter((f) => f.ally);
+        return this.fighters.filter((f) => f.isPlayer);
     }
 
     get enemies() {
-        return this.fighters.filter((f) => !f.ally);
+        return this.fighters.filter((f) => !f.isPlayer);
     }
 
     get alives() {
-        return this.fighters.filter((f) => f.alive);
+        return this.fighters.filter((f) => f.isAlive);
     }
 
     get aliveAllies() {
-        return this.allies.filter((f) => f.alive);
+        return this.allies.filter((f) => f.isAlive);
     }
 
     get aliveEnemies() {
-        return this.enemies.filter((f) => f.alive);
+        return this.enemies.filter((f) => f.isAlive);
     }
 
     get deadAllies() {
-        return this.allies.filter((f) => !f.alive);
+        return this.allies.filter((f) => !f.isAlive);
     }
 
     get deadEnemies() {
-        return this.enemies.filter((f) => !f.alive);
+        return this.enemies.filter((f) => !f.isAlive);
     }
 
     aliveSame(f: Fighter) {
-        return f.ally ? this.aliveAllies : this.aliveEnemies
+        return f.isPlayer ? this.aliveAllies : this.aliveEnemies
     }
 
     aliveDiff(f: Fighter) {
-        return !f.ally ? this.aliveAllies : this.aliveEnemies
+        return (!f.isPlayer ? this.aliveAllies : this.aliveEnemies).filter(f => f.targetable)
     }
 
     same(f: Fighter) {
-        return f.ally ? this.alives : this.enemies
+        return f.isPlayer ? this.allies : this.enemies
     }
 
     diff(f: Fighter) {
-        return !f.ally ? this.alives : this.enemies
+        return !f.isPlayer ? this.allies : this.enemies
     }
 
     constructor(fighters: Fighter[], mobile = false) {
         this.fighters = fighters
-        this.order = fighters.sort((a, b) => b.stats.spd - a.stats.spd)
-        this.turn = 1;
+        this.currentTurn = [...fighters.sort((a, b) => b.stats.spd - a.stats.spd)]
+        this.turn = 0;
         this.skillPoints = 5; // Starting SP
         this.battleLog = [];
         this.isOver = false;
-        this.winner = null;
-        this.turns = []
+        this.simulatedTurns = []
         this.mobile = mobile
         this.fighters.forEach(f => {
-            f.mobile = mobile
             f.engine = this
-            f.updateSection()
         })
         this.initiativeRequired = this.alives.reduce((a, f) => Math.max(a, f.stats.spd), 0) * 5
-        this.currentTurn = this.order[this.fighters.length - 1] // So that the first call to getNextTurn will start from the first fighter
-        this.allySp = 10
-    }
+        this.currentAction = null
+        this.allySp = battleConfig.startSp
 
+        this.fighters.map(f => {
+            f.boardEffects.forEach(b => {
+                if (b.onBattleStart) {
+                    b.onBattleStart(f, this, null)
+                }
+            })
+        })
+
+        this.turnContainer = new ContainerBuilder().addTextDisplayComponents((t) => t.setContent("Battle is starting"))
+    }
+    gainSp(n: number, source: string | Fighter= "") {
+        if(n===0) return
+        this.allySp += n
+        this.allySp = Math.min(this.allySp, battleConfig.maxSp)
+        this.log(`Allies regains ${yellow(n.toString())} ${yellow("SP")} ${source}!`)
+    }
     simulateTurns(n) {
-        this.turns = []
-        let i = this.order.findIndex((f) => f.id == this.currentTurn.id)
-        while (this.turns.length < n) {
-            const nextUp = this.order[(i + 1) % this.order.length]
-            if (nextUp.alive) {
-                this.turns.push(nextUp)
-            }
-            i++
+        this.simulatedTurns = [...this.currentTurn.filter(f => f.isAlive)]
+        while (this.simulatedTurns.length < n) {
+            const nextTurn = this.alives.sort((a, b) => b.stats.spd - a.stats.spd)
+            this.simulatedTurns.push(...nextTurn)
         }
+        this.simulatedTurns = this.simulatedTurns.slice(0, n)
 
         // Tick simulation implementation
         // const tmpFights = [...this.alives]
@@ -144,9 +158,13 @@ export class BattleEngine {
         return this.fighters.find((f) => f.id === id)
     }
 
-    log(line) {
-        console.log("LOG", line, this.battleLog)
-        this.battleLog[0] += `\n${line}`
+    log(line: string, ts: number | null = null) {
+        if(line.length ===0)return
+        this.battleLog.push({
+            line,
+            turn: this.turn,
+            ts: ts || new Date().getTime()
+        })
     }
 
     getNextTurn() {
@@ -166,86 +184,97 @@ export class BattleEngine {
         //         f.initiative += ticks * f.stats.spd
         //     }
         // })
+        if (this.turn == 0) {
+
+        }
 
 
-        const i = this.order.findIndex((f) => f.id == this.currentTurn.id)
         do {
-            this.currentTurn = this.order[(i + 1) % this.order.length]
-        } while (!this.currentTurn.alive)
-        // this.currentTurn = this.getFighter(turn)
-        this.battleLog = ["", ...this.battleLog]
-        this.currentTurn.turnStart()
+            if (this.currentTurn.length === 0) {
+                this.currentTurn = [...this.alives.sort((a, b) => b.stats.spd - a.stats.spd)]
+            }
+            this.currentAction = this.currentTurn.shift()
+        } while (!this.currentAction.isAlive)
+        this.turn += 1
+        this.currentAction.turnStart()
         this.startAlive = [...this.alives]
         this.simulateTurns(4)
     }
 
     endTurn() {
-        this.currentTurn.turnEnd()
-        this.fighters.forEach(f => f.updateSection())
-        this.allySpText.setContent(`SP: ${lifeBar(15, this.allySp / 15, {filledChar: ":yellow_square:"})}`)
-        const defeated = this.startAlive.filter(f => !f.alive).map(f => f.name)
+        this.allySp = Math.max(this.allySp, battleConfig.maxSp)
+        this.currentAction.turnEnd()
+        const defeated = this.startAlive.filter(f => !f.isAlive)
         if (defeated.length > 0) {
-            this.log(`${defeated.map(f => `**${f}**`).join(", ")} has been defeated !`)
+            this.log(`${defeated.join(", ")} has been defeated !`)
         }
         if (this.aliveAllies.length == 0) {
             this.isOver = true
-            this.winner = "ennemies"
+            this.win = true
         } else if (this.aliveEnemies.length == 0) {
             this.isOver = true
-            this.winner = "allies"
+            this.win = false
         }
     }
 
     createContainers() {
-        this.allySpText = new TextDisplayBuilder().setContent(`*SP: *${lifeBar(15, this.allySp / 15, {filledChar: ":yellow_square:"})}`)
+        // Create UI
+
         let enemyContainer;
-        if (this.enemies.length == 1 && this.enemies[0].boss) {
+        if (this.enemies.length == 1 && this.enemies[0].boss) { // BOSS UI
             enemyContainer = new ContainerBuilder()
-                .addTextDisplayComponents((txt) => txt.setContent(`### Boss battle - ${this.enemies[0]} (${this.enemies[0].stats.hp}/${this.enemies[0].stats.maxHp}) `))
+                .addTextDisplayComponents((txt) => txt.setContent(`### Boss battle - ${this.enemies[0].data.name} (${Math.round(this.enemies[0].stats.hp)}/${this.enemies[0].stats.max_hp}) ${this.enemies[0].getAlterationsStrings()}`))
                 .addSeparatorComponents((sep) => sep.setDivider(true))
                 .setAccentColor(0xFF0000)
-                .addMediaGalleryComponents((media) => media.addItems((item) => item.setURL(this.enemies[0].artUrl)))
-                .addTextDisplayComponents((txt) => txt.setContent(lifeBar(25, this.enemies[0].stats.hp / this.enemies[0].stats.maxHp)))
-        } else {
+                .addMediaGalleryComponents((media) => media.addItems((item) => item.setURL(this.enemies[0].data.art)))
+                .addTextDisplayComponents((txt) => txt.setContent(lifeBar(25, this.enemies[0].stats.hp / this.enemies[0].stats.max_hp)))
+        } else { // ENEMIES UI
             enemyContainer = new ContainerBuilder()
                 .addTextDisplayComponents((txt) => txt.setContent("### Enemies"))
                 .addSeparatorComponents((sep) => sep.setDivider(true))
                 .setAccentColor(0xFF0000).addSectionComponents(this.aliveEnemies.map(f => f.section))
         }
+
         const alliesContainer = new ContainerBuilder()
-            .addTextDisplayComponents((txt) => txt.setContent(`### Your Team\nSP: ${lifeBar(15, this.allySp / 15, {filledChar: ":yellow_square:"})}`))
+            .addTextDisplayComponents((txt) => txt.setContent(`### Your Team\nSP: ${this.allySp} / ${battleConfig.maxSp}`))
             // .addTextDisplayComponents(this.allySpText)
             .addSeparatorComponents((sep) => sep.setDivider(true))
             .setAccentColor(0x00FF00).addSectionComponents(this.aliveAllies.map(f => f.section))
         if (this.deadAllies.length > 0) {
             alliesContainer.addSeparatorComponents((sep) => sep.setDivider(true))
-            alliesContainer.addTextDisplayComponents(txt => txt.setContent(`-# Dead allies : ${this.deadAllies.map(f => f.name).join(", ")}`))
+            alliesContainer.addTextDisplayComponents(txt => txt.setContent(`-# Dead allies : ${this.deadAllies.map(s=>s.data.name).join(", ")}`))
         }
         return [enemyContainer, alliesContainer]
     }
 
-    getTurnContainer(skill: Skill | null = null, nextTurnTs: number = 0) {
-        const sp = this.currentTurn.ally ? this.allySp : this.ennemySp
-        const mainSection = new SectionBuilder().addTextDisplayComponents((txt) => txt.setContent(`# ${this.currentTurn.name}'s turn`))
-            .addTextDisplayComponents((txt) => txt.setContent(`${this.currentTurn.stats.hp}/${this.currentTurn.stats.maxHp} HP`))
-            .setThumbnailAccessory((thumb) => thumb.setURL(this.currentTurn.artUrl))
-        if (this.currentTurn.alterations.length > 0) {
-            mainSection.addTextDisplayComponents((txt) => txt.setContent(`${this.currentTurn.alterations.map((a) => a.shortName).join("")}`))
-
+    updateTurnContainer(skill: Skill | null = null, nextTurnTs: number = 0, {ended = false} = {}) {
+        const mainSection = new SectionBuilder()
+            .addTextDisplayComponents((txt) => txt.setContent(`# ${this.currentAction.data.name}'s turn`))
+            .addTextDisplayComponents((txt) => txt.setContent(`${Math.round(this.currentAction.stats.hp)}/${this.currentAction.stats.max_hp} HP ${this.currentAction.getStatAlterationsStrings().length > 0 ? " | "+ this.currentAction.getStatAlterationsStrings():""}`))
+            .setThumbnailAccessory((thumb) => thumb.setURL(this.currentAction.data.art))
+        if (this.currentAction.getAlterationsStrings(false).length > 0) {
+            mainSection.addTextDisplayComponents((txt) => txt.setContent(`${this.currentAction.getAlterationsStrings(false)}`))
         }
+        // if (this.currentAction.getStatAlterationsStrings().length > 0) {
+        //     mainSection.addTextDisplayComponents((txt) => txt.setContent(`${this.currentAction.getStatAlterationsStrings()}`))
+        // }
         const container = new ContainerBuilder()
-            .setAccentColor(this.currentTurn.ally ? 0x00FF00 : 0xFF0000)
+            .setAccentColor(this.currentAction.isPlayer ? 0x00FF00 : 0xFF0000)
             .addSectionComponents(mainSection)
-        if (this.battleLog[0].length > 0) {
+
+
+        if (this.currentLog.length > 0) {
             container.addTextDisplayComponents((txt) => txt.setContent(
                 "```ansi\n" +
-                `${this.battleLog[0]}`
+                `${this.currentLog.filter(l=>l.line.length > 0).map(l => l.line).join("\n")}`
                 + "\n```"
             ))
         }
-        if (this.currentTurn.ally && !this.currentTurn.turnEnded) {
+
+
+        if (this.currentAction.isPlayer && !ended) {
             if (!skill) {
-                const row = this.currentTurn.getActions(sp)
+                const row = this.currentAction.getActions(this.allySp)
                 container
                     .addTextDisplayComponents(txt => txt.setContent("### Actions"))
                     .addActionRowComponents(row)
@@ -254,25 +283,26 @@ export class BattleEngine {
                 const rows = []
                 const ally = skill.ally || false
                 rows.push(new ActionRowBuilder().addComponents(new StringSelectMenuBuilder()
-                    .setCustomId(`${this.currentTurn.id}--${skill.id}`)
+                    .setCustomId(`${this.currentAction.id}--${skill.id}`)
                     .setPlaceholder("Select target")
-                    .addOptions(this.alives.sort((a, b) => a.ally != ally ? 0 : a.ally ? 1 : -1).map(f => ({
-                        label: f.name,
+                    .addOptions(this.alives.sort((a, b) => a.isPlayer != ally ? 0 : a.isPlayer ? 1 : -1).map(f => ({
+                        label: f.data.name,
                         value: f.id
                     })))))
-                rows.push(new ActionRowBuilder().addComponents(new ButtonBuilder().setLabel("Cancel").setCustomId(`${this.currentTurn.id}--${skill.id}--cancel`).setStyle(ButtonStyle.Danger)))
+                rows.push(new ActionRowBuilder().addComponents(new ButtonBuilder().setLabel("Cancel").setCustomId(`${this.currentAction.id}--${skill.id}--cancel`).setStyle(ButtonStyle.Danger)))
                 container.addActionRowComponents(rows)
             }
         }
-        if (this.turns.length > 0) {
-            let turnsText = `Next : ${this.turns.map(f => f.name).join(" - ")}`
-            console.log("Turns", nextTurnTs)
+
+
+        if (this.simulatedTurns.length > 0) {
+            let turnsText = `Next : ${this.simulatedTurns.map(f=>f.data.name).join(" - ")}`
             if (nextTurnTs > 0) {
                 turnsText += ` | Next turn <t:${nextTurnTs}:R>`
             }
             container.addTextDisplayComponents((txt) => txt.setContent(`-# *${turnsText}*`))
         }
-        return container
+        this.turnContainer = container
     }
 
     getEndContainer() {

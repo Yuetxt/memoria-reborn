@@ -1,0 +1,139 @@
+[
+  {
+    "subs": [
+      {
+        "mobs": [
+          "grassland-wolf (3) [3]"
+        ]
+      },
+      {
+        "mobs": [
+          "giant-frog (6) [2]"
+        ]
+      },
+      {
+        "mobs": [
+          "grassland-wolf (9) [3]"
+        ]
+      },
+      {
+        "mobs": [
+          "grand-terrapin (13) [1]"
+        ]
+      },
+      {
+        "mobs": [
+          "giant-frog (17) [2]"
+        ]
+      },
+      {
+        "mobs": [
+          "wind-spirit (21) [2]"
+        ]
+      },
+      {
+        "mobs": [
+          "plains-gryphon (27) [1]"
+        ]
+      },
+      {
+        "mobs": [
+          "epona (30)"
+        ]
+      }
+    ]
+  },
+  {
+    "subs": [
+      {
+        "mobs": [
+          "bioluminescent-anglerfish (33) [3]"
+        ]
+      },
+      {
+        "mobs": [
+          "stalagbite-worm (36) [2]"
+        ]
+      },
+      {
+        "mobs": [
+          "magmafang (36) [3]"
+        ]
+      },
+      {
+        "mobs": [
+          "bioluminescent-anglerfish (39) [3]"
+        ]
+      },
+      {
+        "mobs": [
+          "water-drake (39)"
+        ]
+      },
+      {
+        "mobs": [
+          "magmafang (42) [3]"
+        ]
+      },
+      {
+        "mobs": [
+          "manannan-mac-lir (45)"
+        ]
+      }
+    ]
+  },
+  {
+    "subs": [
+      {
+        "mobs": [
+          "tempest-harpy (49) [3]"
+        ]
+      },
+      {
+        "mobs": [
+          "thunder-drake (53) "
+        ]
+      },
+      {
+        "mobs": [
+          "stormcaller-shaman (53) [2]"
+        ]
+      },
+      {
+        "mobs": [
+          "taranite-colossus (55)"
+        ]
+      },
+      {
+        "mobs": [
+          "grace-omalley (55)"
+        ]
+      },
+      {
+        "mobs": [
+          "tempest-harpy (57) [3]"
+        ]
+      },
+      {
+        "mobs": [
+          "thunder-drake (57)"
+        ]
+      },
+      {
+        "mobs": [
+          "stormcaller-shaman (59) [2]"
+        ]
+      },
+      {
+        "mobs": [
+          "taranite-colossus (59)"
+        ]
+      }, {
+        "mobs": [
+          "taramis (60)"
+        ]
+      }
+
+    ]
+  }
+]

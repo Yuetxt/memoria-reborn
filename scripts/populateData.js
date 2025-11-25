@@ -23,7 +23,7 @@ const sequelize = new Sequelize({
 })
 
 // Import models
-const Servant = require('../database/models/Servant');
+const Servant = require('../database/models/Servant_old');
 const Item = require('../database/models/Item');
 
 // Initialize models

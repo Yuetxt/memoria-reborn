@@ -6,18 +6,19 @@ const {Fighter} = require("../utils/battle/fighter");
 const {getSkill, execute_skill} = require("../utils/battle/skills");
 const {BattleEngine} = require("../utils/battle/engine");
 const {staticUrl} = require("../config.json")
-const {getServant, weightedRandom, getNextFloor} = require("../utils/battle/utils");
+const {weightedRandom, getNextFloor} = require("../utils/battle/utils");
 const {getBoardEffect} = require("../utils/battle/passives");
 const mobsData = require("../data/mobs.json")
 const {Servant} = require("../database/models/Servant");
 const {Op} = require("sequelize");
-const {getServantData, getStats, computeRates, getServantsGrowthRate, getFloor} = require("../utils/battle/setup");
+const {getServantData, getStats, computeRates, getServantsGrowthRate, getFloorMobs} = require("../utils/battle/setup");
 const {BATTLE_STATS_DEFAULTS} = require("../utils/types/battle");
 const {simpleFight, bossFight} = require("../config/battle.json")
 const {normalizeRates} = require("../utils/gacha");
 const servantsData = require("../data/servants.json")
 const battleConfig = require("../config/battle.json")
 const {Stun} = require("../utils/battle/catalog/alterations");
+const {Floor} = require("../utils/floor");
 
 function delay(seconds) {
     return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
@@ -46,13 +47,13 @@ module.exports = {
     data: new SlashCommandBuilder().setName("battle").setDescription("Start a battle with an enemy!")
         .addStringOption(o => o.setName("floor").setRequired(false).setDescription("Floor to battle on")),
     async execute(interaction, player) {
-        let floor = interaction.options.getString("floor") || player.floor
+        let floor = Floor.fromString(interaction.options.getString("floor") || player.floor)
         // Check if floor is valid (respec number-number) and should be inferior to player floor (which has the same format)
         if (!compareFloors(floor, player.floor)) {
             floor = player.floor
         }
         const ennemies = []
-        const mobs = getFloor(floor)
+        const mobs = getFloorMobs(floor)
         for (const mob of mobs) {
             const skills = [getSkill("auto-attack"), ...mob.skills.map(s => getSkill(s))]
             const skillConfig = mob.boss ? simpleFight : bossFight
@@ -255,7 +256,7 @@ module.exports = {
         await interaction.deleteReply(msg)
 
         if (engine.win) {
-            player.floor = getNextFloor(player.floor)
+            player.floor = floor.next()
             player.save()
         }
 

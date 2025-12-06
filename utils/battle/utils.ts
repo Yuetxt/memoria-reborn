@@ -88,23 +88,9 @@ import {Passive} from "./passives";
 import {SkillShort} from "./skills";
 import {Fighter} from "./fighter";
 import {BattleEngine} from "./engine";
-import {BattleStats, Floor} from "../types/battle";
+import {BattleStats} from "../types/battle";
 import {green, red} from "../ansiFormatter";
 
-export function getServant(id: string): {
-    baseStats: {
-        atk: number
-        def: number
-        spd: number
-        maxhp: number
-    },
-    skills: (SkillShort | string)[]
-    passives: Passive[],
-    serie: string,
-    name: string
-} {
-    return servants[id]
-}
 
 export function toSkillId(name: string): string {
     return name
@@ -220,41 +206,3 @@ export function getStatsString(stats: Partial<BattleStats>, color = false): stri
         .join(', ');
 }
 
-export function parseFloor(f: string): Floor {
-    // floor format = floor-sub
-    const [floor, sub] = f.split("-")
-    return {
-        floor: parseInt(floor),
-        sub: parseInt(sub)
-    }
-}
-
-export const MAX_FLOOR: Floor = {
-    floor: floorData.length,
-    sub: floorData[floorData.length - 1].subs.length
-}
-export const superior = (f1: Floor, f2: Floor) => {
-    if (f1.floor > f2.floor) return true
-    if (f1.floor < f2.floor) return false
-    return f1.sub > f2.sub
-}
-
-export function validateFloor(f: Floor) {
-    if (f.floor > floorData.length) return false
-    return f.floor <= floorData.length && f.sub < floorData[f.floor - 1].subs.length
-}
-
-export function getNextFloor(f: Floor) {
-    if (!validateFloor(f)) return
-    if (f.sub < floorData[f.floor - 1].subs.length) {
-        return {
-            floor: f.floor,
-            sub: f.sub + 1
-        }
-    } else {
-        return {
-            floor: f.floor + 1,
-            sub: 1
-        }
-    }
-}

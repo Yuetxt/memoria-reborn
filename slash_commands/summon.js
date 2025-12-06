@@ -39,12 +39,12 @@ module.exports = {
         const servantTexts = summoned.map((s) => {
             return `**${s.name}** ${gachaConfig.rarityChar.repeat(s.rarity + gachaConfig.baseRarity)}`
         })
-
+        console.log("PLEASE", staticUrl, summoned[0].art)
         const container = new ContainerBuilder()
             .addTextDisplayComponents((txt) => txt.setContent(`# Pack opened !`))
             .addTextDisplayComponents((txt) => txt.setContent(`You summoned the following characters :\n${servantTexts.join("\n")}`))
             .addMediaGalleryComponents((media) => media.addItems(...summoned.map((s) => {
-                return (item) => item.setURL(`${staticUrl}${s.art}`)
+                return (item) => item.setURL(`${s.art}`)
             })))
         await interaction.reply({
             components: [container],

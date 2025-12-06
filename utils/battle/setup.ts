@@ -3,8 +3,8 @@ import servantsData from "../../data/servants.json"
 import mobsData from "../../data/mobs.json"
 import floorData from "../../data/floors.json"
 import {Role} from "../types/battle";
-import {MAX_FLOOR, parseFloor, superior} from "./utils";
 import {staticUrl} from "../../config.json"
+import {Floor} from "../floor";
 
 export function getArtUrl(s: string) {
     if (s.startsWith("http")) return s
@@ -93,12 +93,9 @@ function getMob(id: string): MobStatic {
 
 export const LEVEL_DELTA = 0.5
 
-export function getFloor(floorString: string): MobStatic[] {
-    let f = parseFloor(floorString)
-    if (superior(f, MAX_FLOOR)) {
-        f = MAX_FLOOR
-    }
-    const {floor, sub} = f
+export function getFloorMobs(f: Floor): MobStatic[] {
+    const floor = f.floor
+    const sub = f.sub
     try {
         const mobsStrings = floorData[floor - 1]["subs"][sub - 1]["mobs"]
         const mobs = []
@@ -123,6 +120,7 @@ export function getFloor(floorString: string): MobStatic[] {
         return mobs
     } catch (e) {
         console.error(e)
-        throw new Error(`Floor ${floorString} not found`)
+        throw new Error(`Floor ${f} not found`)
     }
 }
+

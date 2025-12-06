@@ -91,7 +91,3 @@ export const BATTLE_STATS_DEFAULTS: Omit<BattleStats, "hp" | "max_hp" | "atk" | 
     debuff_res: 0,
 }
 
-export type Floor = {
-    floor: number
-    sub: number
-}

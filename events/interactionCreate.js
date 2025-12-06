@@ -26,7 +26,10 @@ module.exports = {
         }
         const player = await Player.findByPk(interaction.user.id);
         if (command.playerRequired !== false && !player) {
-            return interaction.reply('You must start your adventure before using this command! Use `!start` to begin.');
+            return interaction.reply({
+                content: 'You must start your adventure before using this command! Use `!start` to begin.',
+                flags: MessageFlags.Ephemeral
+            });
         }
         try {
             await command.execute(interaction, player);

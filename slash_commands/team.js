@@ -20,7 +20,7 @@ module.exports = {
             const menus = []
             for (let i = 0; i < slots.length; i++) {
                 menus.push(new StringSelectMenuBuilder().setCustomId(`team-${player.id}-${i}`).setPlaceholder(slots[i]).addOptions([
-                    ...servants.filter(s => s.teamSlot < 0 || s.teamSlot === i).map(s => ({
+                    ...servants.filter(s => s.teamSlot < 0 || s.teamSlot === i).slice(24).map(s => ({
                         label: `${servantsData[s.servant_id].name}`,
                         description: `${servantsData[s.servant_id].role.toUpperCase()} | ${ELEMENT_EMOJI[servantsData[s.servant_id].element]} | lvl ${s.lvl}`,
                         value: s.id.toString(),

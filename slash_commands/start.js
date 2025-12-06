@@ -1,4 +1,4 @@
-import {ChatInputCommandInteraction, SlashCommandBuilder} from "discord.js";
+import {ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder} from "discord.js";
 import {Player} from "../database/models/Player";
 
 
@@ -12,7 +12,9 @@ module.exports = {
     async execute(interaction, player) {
 
         if (player) {
-            return interaction.reply('You have already started your adventure!', {ephemeral: true});
+            return interaction.reply({
+                content: "You have already started your adventure !",
+                flags:  MessageFlags.Ephemeral,});
         }
 
         const newPlayer = Player.build({
@@ -23,6 +25,9 @@ module.exports = {
         });
         await newPlayer.save();
 
-        await interaction.reply('You have started your adventure!', {ephemeral: true});
+        await interaction.reply({
+            content: "You have started your adventure !",
+            flags:  MessageFlags.Ephemeral,});
+
     }
 }

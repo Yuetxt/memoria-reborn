@@ -49,9 +49,9 @@ module.exports = {
     async execute(interaction, player) {
         let floor = Floor.fromString(interaction.options.getString("floor") || player.floor)
         // Check if floor is valid (respec number-number) and should be inferior to player floor (which has the same format)
-        if (!compareFloors(floor, player.floor)) {
-            floor = player.floor
-        }
+        // if (!compareFloors(floor, player.floor)) {
+        //     floor = player.floor
+        // }
         const ennemies = []
         const mobs = getFloorMobs(floor)
         for (const mob of mobs) {

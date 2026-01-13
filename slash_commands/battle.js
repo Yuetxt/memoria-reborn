@@ -48,7 +48,7 @@ module.exports = {
         .addStringOption(o => o.setName("floor").setRequired(false).setDescription("Floor to battle on")),
     async execute(interaction, player) {
         let floor = Floor.fromString(interaction.options.getString("floor") || player.floor)
-        // Check if floor is valid (respec number-number) and should be inferior to player floor (which has the same format)
+        // Check if floor is valid (respec number-number) and should be inferior to player floor (which has the œsame format)
         // if (!compareFloors(floor, player.floor)) {
         //     floor = player.floor
         // }

@@ -16,7 +16,7 @@ module.exports = {
         player.stamina += stamina
         await player.save()
         interaction.reply({
-            content: `Player ${userMention(player.discordId)} stamina set to ${stamina}`,
+            content: `Player ${userMention(player.discordId)} ${stamina > 0 ? "gains": "loses"} ${Math.abs(stamina)} stamina !`,
             ephemeral: true
         })
     }

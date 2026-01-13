@@ -1,10 +1,14 @@
-const {SlashCommandBuilder, ContainerBuilder, MessageFlags} = require("discord.js");
+const {
+    SlashCommandBuilder, ContainerBuilder, MessageFlags, SectionBuilder, ActionRow, ActionRowBuilder, ButtonBuilder,
+    ButtonStyle
+} = require("discord.js");
 const {summonServant} = require("../utils/gacha");
 const {Servant} = require("../database/models/Servant");
 const {Player} = require("../database/models/Player");
 const {getServantData} = require("../utils/battle/setup");
 const {staticUrl} = require("../config.json")
 const gachaConfig = require("../config/gacha.json")
+const {MultiPageMessageBuilder} = require("../utils/components/multipageEmbed");
 module.exports = {
     data: new SlashCommandBuilder().setName("summon").setDescription("Summon a servant"),
     /**
@@ -12,7 +16,7 @@ module.exports = {
      * @param {Player} player
      */
     async execute(interaction, player) {
-        const n = 5
+        const n = 20
         const summoned = Array.from({length: n}, (i) => {
             const {id, rarity} = summonServant(player.pulls || 0)
             return {
@@ -36,18 +40,21 @@ module.exports = {
         await player.save()
 
 
-        const servantTexts = summoned.map((s) => {
-            return `**${s.name}** ${gachaConfig.rarityChar.repeat(s.rarity + gachaConfig.baseRarity)}`
+        const messageBuilder = new MultiPageMessageBuilder().setItemCount(summoned.length)
+            .setChunk(5)
+            .setMessageBuilder((s, e) => {
+                let sections = summoned.slice(s, e).map((s) => new SectionBuilder()
+                    .setThumbnailAccessory(t => t.setURL(`${s.art}`))
+                    .addTextDisplayComponents(t => t.setContent(`### ${s.name}`))
+                    .addTextDisplayComponents(t => t.setContent(`${s.element.toLocaleUpperCase()} _${s.role}_`))
+                    .addTextDisplayComponents(t => t.setContent(`${gachaConfig.rarityChar.repeat(s.rarity + gachaConfig.baseRarity)}`)))
+
+                return [new ContainerBuilder()
+                    .addTextDisplayComponents((txt) => txt.setContent(`# Pack opened !`))
+                    .addTextDisplayComponents((txt) => txt.setContent(`You summoned the following characters`))
+                    .addSectionComponents(...sections)]
         })
-        const container = new ContainerBuilder()
-            .addTextDisplayComponents((txt) => txt.setContent(`# Pack opened !`))
-            .addTextDisplayComponents((txt) => txt.setContent(`You summoned the following characters :\n${servantTexts.join("\n")}`))
-            .addMediaGalleryComponents((media) => media.addItems(...summoned.map((s) => {
-                return (item) => item.setURL(`${s.art}`)
-            })))
-        await interaction.reply({
-            components: [container],
-            flags: MessageFlags.IsComponentsV2 | MessageFlags.Ephemeral,
-        })
+
+        await messageBuilder.applyToInteraction(interaction, {ephemeral: true})
     }
 }

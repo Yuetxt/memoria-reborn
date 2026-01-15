@@ -118,10 +118,10 @@
   "bioluminescent-anglerfish": {
     "name": "Bioluminescent Anglerfish",
     "stats": {
-      "atk": 203,
-      "def": 162,
-      "spd": 139,
-      "hp": 728
+      "atk": 130,
+      "def": 120,
+      "spd": 120,
+      "hp": 300
     },
     "element": "water",
     "skills": [
@@ -143,10 +143,10 @@
   "stalagbite-worm": {
     "name": "Stalagbite Worm",
     "stats": {
-      "atk": 245,
-      "def": 181,
-      "spd": 153,
-      "hp": 1658
+      "atk": 150,
+      "def": 130,
+      "spd": 130,
+      "hp": 625
     },
     "element": "earth",
     "skills": [
@@ -157,10 +157,10 @@
   "magmafang": {
     "name": "Magmafang",
     "stats": {
-      "atk": 237,
-      "def": 141,
-      "spd": 194,
-      "hp": 1061
+      "atk": 145,
+      "def": 120,
+      "spd": 140,
+      "hp": 400
     },
     "element": "fire",
     "skills": [
@@ -183,10 +183,10 @@
   "water-drake": {
     "name": "Water Drake",
     "stats": {
-      "atk": 215,
-      "def": 273,
-      "spd": 144,
-      "hp": 2319
+      "atk": 150,
+      "def": 160,
+      "spd": 120,
+      "hp": 800
     },
     "element": "water",
     "skills": [
@@ -208,10 +208,10 @@
   "tempest-harpy": {
     "name": "Tempest Harpy",
     "stats": {
-      "atk": 205,
-      "def": 151,
-      "spd": 288,
-      "hp": 1363
+      "atk": 130,
+      "def": 120,
+      "spd": 145,
+      "hp": 350
     },
     "element": "wind",
     "skills": [
@@ -233,10 +233,10 @@
   "thunder-drake": {
     "name": "Thunder Drake",
     "stats": {
-      "atk": 284,
-      "def": 214,
-      "spd": 154,
-      "hp": 2630
+      "atk": 135,
+      "def": 130,
+      "spd": 120,
+      "hp": 600
     },
     "element": "electric",
     "skills": [
@@ -258,10 +258,10 @@
   "stormcaller-shaman": {
     "name": "Stormcaller Shaman",
     "stats": {
-      "atk": 316,
-      "def": 197,
-      "spd": 154,
-      "hp": 1754
+      "atk": 150,
+      "def": 120,
+      "spd": 120,
+      "hp": 400
     },
     "element": "electric",
     "skills": [
@@ -278,10 +278,10 @@
   "taranite-colossus": {
     "name": "Taranite Colossus",
     "stats": {
-      "atk": 210,
-      "def": 347,
-      "spd": 143,
-      "hp": 3488
+      "atk": 125,
+      "def": 160,
+      "spd": 110,
+      "hp": 750
     },
     "element": "earth",
     "skills": [
@@ -299,10 +299,10 @@
     "name": " Manannán mac Lir",
     "boss": true,
     "stats": {
-      "atk": 318,
-      "def": 213,
-      "spd": 173,
-      "hp": 4153
+      "atk": 170,
+      "def": 140,
+      "spd": 140,
+      "hp": 1200
     },
     "element": "water",
     "skills": [
@@ -331,10 +331,10 @@
   "epona": {
     "name": "Epona",
     "stats": {
-      "atk": 224,
-      "def": 143,
-      "spd": 190,
-      "hp": 1999
+      "atk": 150,
+      "def": 125,
+      "spd": 145,
+      "hp": 900
     },
     "boss": true,
     "element": "earth",
@@ -358,10 +358,10 @@
   "grace-omalley": {
     "name": "Grace O'Malley",
     "stats": {
-      "atk": 306,
-      "def": 162,
-      "spd": 221,
-      "hp": 3953
+      "atk": 141,
+      "def": 125,
+      "spd": 132,
+      "hp": 850
     },
     "boss": true,
     "element": "electric",
@@ -390,10 +390,10 @@
   "taramis": {
     "name": "Taramis",
     "stats": {
-      "atk": 212,
-      "def": 159,
-      "spd": 350,
-      "hp": 4691
+      "atk": 120,
+      "def": 120,
+      "spd": 150,
+      "hp": 870
     },
     "boss": true,
     "element": "electric",

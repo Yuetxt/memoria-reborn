@@ -45,9 +45,13 @@ function compareFloors(f1, f2) {
 
 module.exports = {
     data: new SlashCommandBuilder().setName("battle").setDescription("Start a battle with an enemy!")
-        .addStringOption(o => o.setName("floor").setRequired(false).setDescription("Floor to battle on")),
+        .addStringOption(o => o.setName("floor").setRequired(false).setDescription("Floor to battle on"))
+        .addBooleanOption(o=>o.setName("public").setRequired(false).setDescription("Show battle to other player (false by default)"))
+    ,
     async execute(interaction, player) {
         let floor = Floor.fromString(interaction.options.getString("floor") || player.floor)
+        const ephemeral = !(interaction.options.getBoolean("public") || false)
+        const flags = ephemeral ? (MessageFlags.Ephemeral | MessageFlags.IsComponentsV2) : MessageFlags.IsComponentsV2
         // Check if floor is valid (respec number-number) and should be inferior to player floor (which has the œsame format)
         // if (!compareFloors(floor, player.floor)) {
         //     floor = player.floor
@@ -78,7 +82,7 @@ module.exports = {
         let staminaCost = ennemies.some(e => e.boss) ? battleConfig.baseStaminaCost : battleConfig.bossStaminaCost
         if (player.stamina < staminaCost) {
             return await interaction.reply("You don't have enough stamina!", {
-                flags: MessageFlags.IsComponentsV2 | MessageFlags.Ephemeral,
+                flags: MessageFlags.Ephemeral,
             })
         }
         player.stamina -= staminaCost
@@ -86,7 +90,9 @@ module.exports = {
 
         const servants = await Servant.findAll({where: {playerId: player.discordId, teamSlot: {[Op.gte]: 0}}})
         if (servants.length === 0) {
-            return interaction.reply("You have no servants selected! Summon with /summon and manage your team with /team")
+            return interaction.reply("You have no servants selected! Summon with /summon and manage your team with /team", {
+                flags: MessageFlags.Ephemeral,
+            })
         }
         servants.map(s=>{
             s.lvl = 100
@@ -112,26 +118,26 @@ module.exports = {
 
         await interaction.reply({
             components: containers,
-            flags: MessageFlags.IsComponentsV2 | MessageFlags.Ephemeral,
+            flags,
             withResponse: true,
         })
         let msg = await interaction.followUp({
             components: [engine.turnContainer],
-            flags: MessageFlags.IsComponentsV2 | MessageFlags.Ephemeral,
+            flags,
             withResponse: true,
         })
         const updateTurn = async () => {
             await interaction.editReply({
                 message: msg,
                 components: [engine.turnContainer],
-                flags: MessageFlags.IsComponentsV2 | MessageFlags.Ephemeral,
+                flags,
             })
         }
         const updateState = async () => {
             const containers = engine.createContainers()
             await interaction.editReply({
                 components: containers,
-                flags: MessageFlags.IsComponentsV2 | MessageFlags.Ephemeral,
+                flags,
             })
         }
         // Loop
@@ -262,7 +268,7 @@ module.exports = {
 
         await interaction.editReply({
             components: [engine.getEndContainer()],
-            flags: MessageFlags.IsComponentsV2 | MessageFlags.Ephemeral,
+            flags,
         })
     }
 }

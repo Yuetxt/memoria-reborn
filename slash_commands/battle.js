@@ -94,9 +94,6 @@ module.exports = {
                 flags: MessageFlags.Ephemeral,
             })
         }
-        servants.map(s=>{
-            s.lvl = 100
-        })
         const players = []
         for (const servant of servants.sort((a, b) => a.teamSlot - b.teamSlot)) {
             const baseServant = getServantData(servant.servant_id)

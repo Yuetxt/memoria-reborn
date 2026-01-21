@@ -10,20 +10,20 @@ module.exports = {
      * @param {Player} player
      */
     async execute(interaction, player) {
-        // if (player) {
-        //     return interaction.reply({
-        //         content: "You have already started your adventure !",
-        //         flags:  MessageFlags.Ephemeral,});
-        // }
-        //
-        // const newPlayer = Player.build({
-        //     discordId: interaction.user.id,
-        //     lvl: 1,
-        //     xp: 0,
-        //     stamina: 100,
-        //     gold: 100000
-        // });
-        // await newPlayer.save();
+        if (player) {
+            return interaction.reply({
+                content: "You have already started your adventure !",
+                flags:  MessageFlags.Ephemeral,});
+        }
+
+        const newPlayer = Player.build({
+            discordId: interaction.user.id,
+            lvl: 1,
+            xp: 0,
+            stamina: 100,
+            gold: 100000
+        });
+        await newPlayer.save();
 
         const text = welcomeText.replace("[discord nickname]", `**${interaction.user.displayName}**`);
         const embed = new EmbedBuilder()

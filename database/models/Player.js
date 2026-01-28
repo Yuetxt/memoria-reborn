@@ -27,6 +27,14 @@ export class Player extends Model {
                     min: 0,
                 }
             },
+            maxStamina: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 100,
+                validate: {
+                    min: 0,
+                }
+            },
             lastStaminaRecharge: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
@@ -46,7 +54,13 @@ export class Player extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 defaultValue: 0
-            }
+            },
+            gems: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 0
+            },
+
         }, {sequelize, tableName: "Players", modelName: "Player", timestamps: false})
     }
 

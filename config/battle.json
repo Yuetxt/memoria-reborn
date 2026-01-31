@@ -1,8 +1,8 @@
 {
   "actionTurnDuration": 60,
   "nonActionTurnDuration": 3,
-  "maxSp": 1000,
-  "startSp": 1000,
+  "maxSp": 15,
+  "startSp": 5,
   "bossStaminaCost": 10,
   "baseStaminaCost": 5,
   "simpleFight": {

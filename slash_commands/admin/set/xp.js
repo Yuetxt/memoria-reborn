@@ -2,28 +2,30 @@ const {SlashCommandSubcommandBuilder, userMention, EmbedBuilder} = require("disc
 const {Player} = require("../../../database/models/Player");
 module.exports = {
     data: new SlashCommandSubcommandBuilder()
-        .setName("gold")
-        .setDescription("Add gold to player")
-        .addNumberOption(o => o.setName("gold").setRequired(true).setDescription("Gold to add"))
-        .addUserOption(o => o.setName("player").setRequired(false).setDescription("Player to add gold")),
+        .setName("xp")
+        .setDescription("Set player xp")
+        .addNumberOption(o => o.setName("xp").setRequired(true).setDescription("xp to set, negative to remove"))
+        .addUserOption(o => o.setName("player").setRequired(false).setDescription("Player to add xp")),
     execute: async (interaction, _) => {
-        const gold = interaction.options.getNumber("gold")
+        const xp = interaction.options.getNumber("xp")
         const discordUser = interaction.options.getUser("player") || interaction.user
         const discordId = discordUser.id
         const player = await Player.findOne({where: {discordId}})
         if (!player) {
             return interaction.reply({content: "Player not found", ephemeral: true})
         }
-        const baseGold = player.gold
-        player.gold = Math.max(0, player.gold + gold)
+        const baseProgress = player.getXpProgress()
+        const baseLevel = player.lvl
+        player.xp = Math.max(0, xp)
+        player.calculateLvl()
         await player.save()
 
         const embed = new EmbedBuilder()
             .setTitle(discordUser.displayName).setThumbnail(discordUser.displayAvatarURL())
-            .setDescription(`${interaction.user} ${gold > 0 ? "gains": "loses"} **${Math.abs(gold)} gold** ! `)
+            .setDescription(`${interaction.user} set to **${Math.max(0, xp)} xp** ! `)
             .addFields({
-                name: "💰 Gold",
-                value: `_${baseGold}_ -> **${player.gold}**`
+                name: "📊 Level",
+                value: `_${baseLevel} (${Math.round(baseProgress.progress*100)}%)_    ->   **${player.lvl} (${Math.round(player.getXpProgress().progress*100)}%)**`
             })
 
         interaction.reply({

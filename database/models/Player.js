@@ -1,6 +1,7 @@
 import {Sequelize, Model, DataTypes} from "sequelize";
-
+import {calculateLvl, calculateXp} from "../../utils/xp"
 export class Player extends Model {
+
     static init(sequelize) {
         return super.init({
             discordId: {
@@ -24,7 +25,14 @@ export class Player extends Model {
                 defaultValue: 100,
                 validate: {
                     min: 0,
-                    max: 100
+                }
+            },
+            maxStamina: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 100,
+                validate: {
+                    min: 0,
                 }
             },
             lastStaminaRecharge: {
@@ -46,7 +54,13 @@ export class Player extends Model {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 defaultValue: 0
-            }
+            },
+            gems: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                defaultValue: 0
+            },
+
         }, {sequelize, tableName: "Players", modelName: "Player", timestamps: false})
     }
 
@@ -57,6 +71,20 @@ export class Player extends Model {
             sourceKey: 'discordId',
             as: 'servants'
         });
+    }
+
+    getXpProgress() {
+        const nextLevelXp = calculateXp(this.lvl + 1, "player")
+        const currentLevelXp = calculateXp(this.lvl, "player")
+        const neededXp = nextLevelXp - currentLevelXp
+        return {
+            neededXp,
+            progress: Math.max(0, (this.xp - currentLevelXp) / neededXp)
+        }
+    }
+
+    calculateLvl() {
+        this.lvl = calculateLvl(this.xp, "player")
     }
 
     rechargeStamina() {

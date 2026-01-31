@@ -3,6 +3,22 @@ const {Player} = require("../database/models/Player");
 module.exports = {
     name: 'interactionCreate',
     async execute(interaction,) {
+        if (interaction.isAutocomplete()) {
+            const client = interaction.client;
+            const command = client.slashCommands.get(interaction.commandName);
+            
+            if (!command || !command.autocomplete) {
+                return;
+            }
+            
+            try {
+                await command.autocomplete(interaction);
+            } catch (error) {
+                console.error('Autocomplete error:', error);
+            }
+            return;
+        }
+        
         if (!interaction.isChatInputCommand()) return;
         const client = interaction.client;
         const group = interaction.options.getSubcommandGroup(false);
